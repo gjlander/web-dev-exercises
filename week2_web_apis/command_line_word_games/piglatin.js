@@ -40,12 +40,22 @@ const pigLatinArray = phraseArray.map((word) => {
     } else if (consonants.some((con) => word.toLowerCase().startsWith(con))) {
         //checking if second letter is also a consonant
         if (consonants.some((con) => word.toLowerCase().charAt(1) === con)) {
-            const pigWord = word.slice(2) + word.slice(0, 2) + 'ay';
+            let pigWord = word.slice(2) + word.slice(0, 2) + 'ay';
+            pigWord = pigWord.toLowerCase();
+            if (!consonants.some((con) => word.startsWith(con))) {
+                pigWord = pigWord.charAt(0).toUpperCase() + pigWord.slice(1);
+            }
             return pigWord;
         }
         //check if second letter is a vowel
         if (vowels.some((vowel) => word.toLowerCase().charAt(1) === vowel)) {
-            const pigWord = word.slice(1) + word.charAt(0) + 'ay';
+            let pigWord = word.slice(1) + word.charAt(0) + 'ay';
+            pigWord = pigWord.toLowerCase();
+            //make first letter uppercase if original word was uppercase
+            if (!consonants.some((con) => word.startsWith(con))) {
+                pigWord = pigWord.charAt(0).toUpperCase() + pigWord.slice(1);
+            }
+
             return pigWord;
         }
         //return word as normal if it has symbols or numbers
