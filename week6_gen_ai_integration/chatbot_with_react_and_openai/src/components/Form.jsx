@@ -1,9 +1,13 @@
-const Form = ({ isStream, setIsStream, prompt, setPrompt }) => {
-    const submitPrompt = (e) => {
-        e.preventDefault();
-        console.log(isStream, prompt);
-        setPrompt('');
-    };
+const Form = ({
+    isStream,
+    setIsStream,
+    prompt,
+    setPrompt,
+    submitPrompt,
+    isDisabled,
+}) => {
+    // const [isDisabled, setIsDisabled] = useState(false);
+
     return (
         <form
             onSubmit={submitPrompt}
@@ -16,6 +20,7 @@ const Form = ({ isStream, setIsStream, prompt, setPrompt }) => {
                         className='checkbox checkbox-primary'
                         checked={isStream}
                         onChange={() => setIsStream((prev) => !prev)}
+                        disabled={isDisabled}
                     />
                     <span className='label-text'>Stream response?</span>
                 </label>
@@ -26,7 +31,10 @@ const Form = ({ isStream, setIsStream, prompt, setPrompt }) => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
             />
-            <button className='btn btn-primary w-full'> Submit ✨</button>
+            <button disabled={isDisabled} className='btn btn-primary w-full'>
+                {' '}
+                Submit ✨
+            </button>
         </form>
     );
 };
