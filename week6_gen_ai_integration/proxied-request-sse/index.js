@@ -97,10 +97,12 @@ form.addEventListener('submit', async (e) => {
                         // If there is content
                         if (content) {
                             dataResult += content;
-                            const md = marked.parse(dataResult);
-                            // Add the content to the paragraph element;
-                            p.innerHTML = md;
-                            Prism.highlightAll();
+                            console.log(dataResult);
+
+                            // const md = marked.parse(dataResult);
+                            // // Add the content to the paragraph element;
+                            // p.innerHTML = md;
+                            // Prism.highlightAll();
                         }
                     }
                 });
