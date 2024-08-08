@@ -32,7 +32,6 @@ const Form = ({
                 onChange={(e) => setPrompt(e.target.value)}
             />
             <button disabled={isDisabled} className='btn btn-primary w-full'>
-                {' '}
                 Submit ✨
             </button>
         </form>

@@ -2,19 +2,41 @@ import { useState } from 'react';
 import Form from './components/Form';
 import Response from './components/Response';
 
+//Struggle points:
+// Messages: adding an ID to message still works, adding text to single message instead of making a new one
+//Google libraries for markdown?- highlighter doesn't work
+
 function App() {
     const [isStream, setIsStream] = useState(false);
     const [prompt, setPrompt] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
-    const [answer, setAnswer] = useState('');
-    // const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+        {
+            id: 1,
+            role: 'system',
+            content:
+                'You are a software developer student that only speaks in rhymes', // This is the system message, it will control the behavior of the chatbot
+        },
+    ]);
     const submitPrompt = async (e) => {
         e.preventDefault();
         try {
-            // If the prompt value is empty, alert the user
-            if (!prompt) return alert('Please enter a prompt');
+            const messagesLength = (messages.length - 1) / 2;
+            if (messagesLength >= 5) {
+                return alert('Maximum messages used!');
+            }
+            if (!prompt)
+                // If the prompt value is empty, alert the user
+                return alert('Please enter a prompt');
             // Clear the results container
-            setAnswer('');
+            setMessages((prev) => [
+                ...prev,
+                {
+                    id: crypto.randomUUID(),
+                    role: 'user',
+                    content: prompt,
+                },
+            ]);
             // Disable the submit button
             setIsDisabled(true);
             // Request
@@ -30,20 +52,11 @@ function App() {
                     body: JSON.stringify({
                         model: 'gpt-4o',
                         stream: isStream,
-                        messages: [
-                            {
-                                role: 'system',
-                                content:
-                                    'You are a software developer student that only speaks in rhymes', // This is the system message, it will control the behavior of the chatbot
-                            },
-                            {
-                                role: 'user',
-                                content: prompt, // This is the user message, it will be the prompt for the chatbot
-                            },
-                        ],
+                        messages,
                     }),
                 }
             );
+
             if (!response.ok) {
                 // If the response is not ok, throw an error by parsing the JSON response
                 const { error } = await response.json();
@@ -51,6 +64,7 @@ function App() {
             }
             setPrompt('');
             // Conditionally process the response depending on the value of `isStream`
+            const newMessageId = crypto.randomUUID();
             if (isStream) {
                 // Process stream response
                 // Get the responses stream
@@ -87,14 +101,33 @@ function App() {
                             const content = data.choices[0]?.delta?.content;
                             // If there is content
                             if (content) {
-                                setAnswer((prev) => {
-                                    console.log(prev + content);
+                                setMessages((prev) => {
+                                    const isMessageAlreadyAdded = prev.find(
+                                        (m) => m.id === newMessageId
+                                    );
 
-                                    return prev + content;
+                                    if (isMessageAlreadyAdded) {
+                                        return prev.map((m) =>
+                                            m.id === newMessageId
+                                                ? {
+                                                      ...m,
+                                                      content: `${m.content}${content}`,
+                                                  }
+                                                : m
+                                        );
+                                    } else {
+                                        return [
+                                            ...prev,
+                                            {
+                                                id: newMessageId,
+                                                role: 'assistant',
+                                                content,
+                                            },
+                                        ];
+                                    }
                                 });
-                                // console.log(content);
 
-                                // console.log(answer);
+                                // console.log(content);
 
                                 // const md = marked.parse(dataResult);
                                 // // Add the content to the paragraph element;
@@ -107,7 +140,15 @@ function App() {
             } else {
                 // Process response normally
                 const dataResult = await response.json();
-                setAnswer(dataResult.message?.content);
+                // setAnswer(dataResult.message?.content);
+                setMessages((prev) => [
+                    ...prev,
+                    {
+                        id: newMessageId,
+                        role: 'assistant',
+                        content: dataResult.message?.content,
+                    },
+                ]);
             }
         } catch (error) {
             // If an error occurs, log it to the console
@@ -115,12 +156,14 @@ function App() {
         } finally {
             // Enable the submit button
             setIsDisabled(false);
+            setPrompt('');
         }
     };
 
     return (
         <main className='h-screen container mx-auto p-5 flex flex-col justify-between gap-5'>
             <h1 className='text-6xl text-center mb-4'>Chatbot!</h1>
+            <Response messages={messages} />
             <Form
                 isStream={isStream}
                 setIsStream={setIsStream}
@@ -129,7 +172,6 @@ function App() {
                 submitPrompt={submitPrompt}
                 isDisabled={isDisabled}
             />
-            <Response answer={answer} />
         </main>
     );
 }
