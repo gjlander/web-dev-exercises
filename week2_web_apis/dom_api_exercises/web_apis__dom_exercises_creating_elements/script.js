@@ -93,3 +93,26 @@ heroContent.style.textAlign = 'center';
 
 h1.style.fontSize = '2.5rem';
 h1.style.marginBottom = '1rem';
+
+p.style.fontSize = '1.2rem';
+p.style.marginBottom = '2rem';
+
+btn.style.backgroundColor = '#333';
+btn.style.color = '#fff';
+btn.style.padding = '0.75rem 1.5rem';
+btn.style.textDecoration = 'none';
+btn.style.borderRadius = '5px';
+btn.style.transition = 'background-color 0.3s ease';
+
+btn.addEventListener('mouseover', () => {
+    btn.style.backgroundColor = '#555';
+});
+btn.addEventListener('mouseout', () => {
+    btn.style.backgroundColor = '#333';
+});
+
+footer.style.backgroundColor = '#333';
+footer.style.color = '#fff';
+footer.style.textAlign = 'center';
+footer.style.padding = '1rem 0';
+footer.style.marginTop = 'auto';
