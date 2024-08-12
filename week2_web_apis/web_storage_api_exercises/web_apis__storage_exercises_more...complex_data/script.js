@@ -3,25 +3,50 @@ const userInput = document.querySelector('#userInput');
 const ul = document.querySelector('ul');
 const reloadBtn = document.querySelector('#reload');
 
-const quotes = JSON.parse(localStorage.getItem('quotes')) || [];
-
 const makeNewLi = (quote) => {
     const newLi = document.createElement('li');
     const newP = document.createElement('p');
     const newBtn = document.createElement('button');
 
     newLi.id = quote.id;
-    newLi.classList.add('flex', 'gap-4');
+    newLi.classList.add(
+        'flex',
+        'gap-4',
+        'items-baseline',
+        'px-4',
+        'justify-between'
+    );
 
-    newBtn.textContent = 'Delete';
     newP.textContent = quote.content;
+    newBtn.textContent = 'Delete';
+    newBtn.classList.add(
+        'mt-5',
+        'px-4',
+        'py-2',
+        'bg-red-500',
+        'hover:bg-red-400',
+        'text-white',
+        'rounded'
+    );
+    newBtn.addEventListener('click', (e) => {
+        const currentTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        const updatedTasks = currentTasks.filter(
+            (q) => q.id !== e.target.parentElement.id
+        );
+        // console.log(updatedQuotes);
+
+        localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+        e.target.parentElement.remove();
+    });
 
     newLi.appendChild(newP);
     newLi.appendChild(newBtn);
     return newLi;
 };
 const renderStorage = () => {
-    quotes.forEach((q) => {
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach((q) => {
         const newLi = makeNewLi(q);
         ul.appendChild(newLi);
     });
@@ -35,11 +60,10 @@ form.addEventListener('submit', (e) => {
         id: 'task-' + crypto.randomUUID(),
         content: userInput.value,
     };
-    quotes.unshift(newQuote);
-    localStorage.setItem('quotes', JSON.stringify(quotes));
-    const newLi = document.createElement('li');
-    newLi.id = newQuote.id;
-    newLi.textContent = userInput.value;
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.unshift(newQuote);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    const newLi = makeNewLi(newQuote);
     ul.insertBefore(newLi, ul.firstChild);
     form.reset();
 });
