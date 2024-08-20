@@ -1,9 +1,15 @@
-const AddToDo = () => {
+import { useState } from 'react';
+
+const AddToDo = ({ setTodos }) => {
+    const [newTodo, setNewTodo] = useState('');
     const handleSubmit = (e) => {
         e.preventDefault();
-        const value = e.target.elements.todo.value;
-        if (!value) return;
-        console.log(value);
+        if (!newTodo) return;
+        setTodos((prevTodos) => [
+            { id: Date.now(), text: newTodo, completed: false },
+            ...prevTodos,
+        ]);
+        setNewTodo('');
     };
 
     return (
@@ -13,6 +19,8 @@ const AddToDo = () => {
                 name='todo'
                 placeholder='Add a new to-do'
                 className='flex-1 border rounded px-2 py-1 mr-2'
+                value={newTodo}
+                onChange={(e) => setNewTodo(e.target.value)}
             />
             <button
                 type='submit'
