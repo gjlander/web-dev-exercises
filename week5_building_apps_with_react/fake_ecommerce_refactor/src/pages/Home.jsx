@@ -1,4 +1,4 @@
-import { Link, useOutletContext } from 'react-router-dom';
+import { /*Link,*/ useOutletContext } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 const Home = () => {
     const { products } = useOutletContext();
@@ -8,9 +8,11 @@ const Home = () => {
         <div>
             <div className='flex flex-wrap justify-center gap-8'>
                 {products.map((product) => (
-                    <Link to={`store/${product.id}`} key={product.id}>
+                    // <Link to={`store/${product.id}`} key={product.id}>
+                    <div key={product.id} className='w-96 h-[500px]'>
                         <ItemCard product={product} />
-                    </Link>
+                    </div>
+                    // </Link>
                 ))}
             </div>
         </div>
