@@ -2,7 +2,6 @@ import { /*Link,*/ useOutletContext } from 'react-router-dom';
 import ItemCard from '../components/ItemCard';
 const Home = () => {
     const { products } = useOutletContext();
-    console.log(products);
 
     return (
         <div>

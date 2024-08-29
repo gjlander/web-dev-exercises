@@ -1,20 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useEffect, useState } from 'react';
-
-const getAllProducts = async () => {
-    try {
-        const res = await fetch('https://fakestoreapi.com/products');
-        const data = await res.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-};
+import { getAllProducts } from '../lib/fakeStore';
 
 const MainLayout = () => {
     const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(
+        JSON.parse(localStorage.getItem('cart')) || []
+    );
     useEffect(() => {
         getAllProducts()
             .then((array) => setProducts(array))

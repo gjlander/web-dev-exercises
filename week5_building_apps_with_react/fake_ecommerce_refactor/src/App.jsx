@@ -8,6 +8,7 @@ import {
 import MainLayout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
+import Categories from './pages/Categories';
 import Item from './pages/Item';
 
 const router = createBrowserRouter(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
         <Route path='/' element={<MainLayout />}>
             <Route index element={<Home />} />
             <Route path='cart' element={<Cart />} />
+            <Route path='categories/:category' element={<Categories />} />
             <Route path='store/:id' element={<Item />} />
         </Route>
     )

@@ -1,5 +1,10 @@
 import { Link } from 'react-router-dom';
 const Navbar = ({ cart }) => {
+    const cartCount = cart.reduce((acc, item) => acc + item.count, 0);
+    const totalCost = cart.reduce(
+        (acc, item) => acc + item.price * item.count,
+        0
+    );
     return (
         <div className='navbar bg-base-100'>
             <div className='flex-1'>
@@ -30,7 +35,7 @@ const Navbar = ({ cart }) => {
                                 />
                             </svg>
                             <span className='badge badge-sm indicator-item'>
-                                {cart.length}
+                                {cartCount}
                             </span>
                         </div>
                     </div>
@@ -40,9 +45,11 @@ const Navbar = ({ cart }) => {
                     >
                         <div className='card-body'>
                             <span className='text-lg font-bold'>
-                                {cart.length} Items
+                                {cartCount} Items
                             </span>
-                            <span className='text-info'>Subtotal: $999</span>
+                            <span className='text-info'>
+                                Subtotal: ${totalCost.toFixed(2)}
+                            </span>
                             <div className='card-actions'>
                                 <Link to='cart'>
                                     <button className='btn btn-primary btn-block'>
