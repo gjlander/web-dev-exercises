@@ -12,8 +12,8 @@ if (isNaN(shift)) {
     console.error('Second argument must be a number');
 }
 
-if (args.length === 3 && args[2].toLowerCase() !== 'decrypt') {
-    console.error('Third argument must say "decrypt"');
+if (args.length === 3 && args[2].toLowerCase() !== 'decode') {
+    console.error('Third argument must say "decode"');
 }
 // console.log(phraseArray);
 const alphabet = [

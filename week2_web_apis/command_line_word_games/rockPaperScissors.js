@@ -32,13 +32,15 @@ switch (true) {
     case playerChoice === 'rock' && compChoice === 'scissors':
     case playerChoice === 'paper' && compChoice === 'rock':
     case playerChoice === 'scissors' && compChoice === 'paper':
-        return console.log(message(playerChoice, compChoice, 'won'));
+        console.log(message(playerChoice, compChoice, 'won'));
+        break;
 
     case playerChoice === 'rock' && compChoice === 'paper':
     case playerChoice === 'paper' && compChoice === 'scissors':
     case playerChoice === 'scissors' && compChoice === 'rock':
-        return console.log(message(playerChoice, compChoice, 'lost'));
+        console.log(message(playerChoice, compChoice, 'lost'));
+        break;
 
     default:
-        return console.log(message(playerChoice, compChoice, 'draw'));
+        console.log(message(playerChoice, compChoice, 'draw'));
 }

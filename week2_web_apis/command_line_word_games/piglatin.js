@@ -35,7 +35,7 @@ const consonants = [
 const pigLatinArray = phraseArray.map((word) => {
     //checking if starts with a vowel
     if (vowels.some((vowel) => word.toLowerCase().startsWith(vowel))) {
-        return (word += 'way');
+        return word + 'way';
         //checking if starts with a consonant
     } else if (consonants.some((con) => word.toLowerCase().startsWith(con))) {
         //checking if second letter is also a consonant
