@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+require('colors');
 
 const app = express();
 const cors = require('cors');
@@ -23,5 +24,5 @@ app.use('/users', userRouter);
 app.use('/books', bookRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`.yellow);
 });

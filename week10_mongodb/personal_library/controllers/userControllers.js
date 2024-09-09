@@ -3,7 +3,7 @@ const User = require('../models/user.js');
 // get all users
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find().populate('readingList.bookRefId');
         if (!users.length) {
             res.status(200).json({ msg: 'No users in the DB' });
         } else {
@@ -44,14 +44,14 @@ const createUser = async (req, res) => {
 // update a user
 const updateUser = async (req, res) => {
     try {
-        const { first_name, last_name, email } = req.body;
+        const { firstName, lastName, email } = req.body;
         const { id } = req.params;
 
         const user = await User.findByIdAndUpdate(
             id,
             {
-                first_name,
-                last_name,
+                firstName,
+                lastName,
                 email,
             },
             {

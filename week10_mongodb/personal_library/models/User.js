@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 
-const ReadingListSchema = new mongoose.Schema({
-    bookRefId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Book',
-        required: true,
-    },
-    status: {
-        type: String,
-        enum: ['read', 'not read', 'pending'],
-        default: 'pending',
-    },
-});
+// const ReadingListSchema = new mongoose.Schema({
+//     bookRefId: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: 'Book',
+//         required: true,
+//     },
+//     status: {
+//         type: String,
+//         enum: ['read', 'not read', 'pending'],
+//         default: 'pending',
+//     },
+// });
 
 const UserSchema = new mongoose.Schema({
     firstName: {
@@ -33,7 +33,20 @@ const UserSchema = new mongoose.Schema({
         ],
     },
     readingList: {
-        type: [ReadingListSchema],
+        type: [
+            {
+                bookRefId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Book',
+                    required: true,
+                },
+                status: {
+                    type: String,
+                    enum: ['read', 'not read', 'pending'],
+                    default: 'pending',
+                },
+            },
+        ],
         default: () => [],
     },
 });

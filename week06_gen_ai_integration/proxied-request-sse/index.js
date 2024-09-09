@@ -10,8 +10,6 @@ form.addEventListener('submit', async (e) => {
             stream: { checked: streamValue },
             submit,
         } = form.elements;
-        // console.log(promptValue, streamValue, submit);
-
         // If the prompt value is empty, alert the user
         if (!promptValue) return alert('Please enter a prompt');
         // Clear the results container
@@ -40,8 +38,7 @@ form.addEventListener('submit', async (e) => {
                     messages: [
                         {
                             role: 'system',
-                            content:
-                                'You are a software developer student that only speaks in rhymes', // This is the system message, it will control the behavior of the chatbot
+                            content: 'You are a software developer', // This is the system message, it will control the behavior of the chatbot
                         },
                         {
                             role: 'user',
@@ -58,7 +55,6 @@ form.addEventListener('submit', async (e) => {
         }
         // Conditionally process the response depending on the value of `streamValue`
         if (streamValue) {
-            // Process stream response
             // Process stream response
             // Get the responses stream
             const reader = response.body.getReader();
@@ -97,12 +93,10 @@ form.addEventListener('submit', async (e) => {
                         // If there is content
                         if (content) {
                             dataResult += content;
-                            console.log(dataResult);
-
-                            // const md = marked.parse(dataResult);
-                            // // Add the content to the paragraph element;
-                            // p.innerHTML = md;
-                            // Prism.highlightAll();
+                            const md = marked.parse(dataResult);
+                            // Add the content to the paragraph element;
+                            p.innerHTML = md;
+                            Prism.highlightAll();
                         }
                     }
                 });

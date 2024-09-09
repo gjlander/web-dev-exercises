@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import AddToDo from './components/AddToDo';
 import FilterComponent from './components/FilterComponent';
 import ToDoList from './components/ToDoList';
+import Nav from './components/Nav';
 
 const App = () => {
+    const [isDark, setIsDark] = useState(
+        JSON.parse(localStorage.getItem('theme')) || true
+    );
     const [todos, setTodos] = useState(
         JSON.parse(localStorage.getItem('todos')) || []
     );
@@ -28,7 +32,12 @@ const App = () => {
         return false;
     });
     return (
-        <div className='container mx-auto p-4'>
+        <div
+            className={`p-4 min-h-screen w-screen dark:bg-slate-600 ${
+                isDark && 'dark'
+            }`}
+        >
+            <Nav isDark={isDark} setIsDark={setIsDark} />
             <AddToDo setTodos={setTodos} />
             <FilterComponent setFilter={setFilter} />
             <ToDoList todos={filteredTodos} toggleTodo={toggleTodo} />

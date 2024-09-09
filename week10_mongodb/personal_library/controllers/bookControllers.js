@@ -44,16 +44,12 @@ const createBook = async (req, res) => {
 // update a book
 const updateBook = async (req, res) => {
     try {
-        const { first_name, last_name, email } = req.body;
+        const { title, isbn, author } = req.body;
         const { id } = req.params;
 
         const book = await Book.findByIdAndUpdate(
             id,
-            {
-                first_name,
-                last_name,
-                email,
-            },
+            { title, isbn, author },
             {
                 new: true,
             }
