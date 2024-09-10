@@ -1,13 +1,25 @@
+import { useState, useRef } from 'react';
+import Chat from './components/Chat';
+import Form from './components/Form';
+
 function App() {
+    const chatRef = useRef(null);
+
+    const [messages, setMessages] = useState([
+        {
+            role: 'system',
+            content: 'You are a web developer.',
+        },
+    ]);
     return (
-        <div className='hero bg-base-200 min-h-screen'>
-            <div className='hero-content text-center'>
-                <div className='max-w-md'>
-                    <h1 className='text-5xl font-bold'>
-                        Welcome to your Vite+Tailwind+DaisyUI Boilerplate
-                    </h1>
-                </div>
-            </div>
+        <div className='p-4 flex flex-col gap-4 h-screen'>
+            <h1 className='text-5xl text-center font-bold'>AI Chatbot</h1>
+            <Chat chatRef={chatRef} messages={messages} />
+            <Form
+                chatRef={chatRef}
+                messages={messages}
+                setMessages={setMessages}
+            />
         </div>
     );
 }
