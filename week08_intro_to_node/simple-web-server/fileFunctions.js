@@ -1,4 +1,4 @@
-import { access, writeFile, mkdir, unlink } from 'fs/promises';
+import { access, writeFile, mkdir, unlink, readFile } from 'fs/promises';
 import { join } from 'path';
 
 const createFileWithMessage = async (message) => {
@@ -36,4 +36,13 @@ const deleteFileByName = async (filePath) => {
     }
 };
 
-export { createFileWithMessage, deleteFileByName };
+const readFileByName = async (filePath) => {
+    try {
+        const fileContent = await readFile(filePath, 'utf-8');
+        return fileContent;
+    } catch (error) {
+        console.error('Something went wrong', error);
+    }
+};
+
+export { createFileWithMessage, deleteFileByName, readFileByName };
