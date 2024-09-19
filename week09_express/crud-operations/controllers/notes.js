@@ -1,9 +1,11 @@
 // controllers/notes.js
 // Import our Note model
 import Note from '../models/Note.js';
+import User from '../models/User.js';
+
 export const getNotes = async (req, res) => {
     try {
-        const notes = await Note.findAll();
+        const notes = await Note.findAll({ include: User });
         res.json(notes);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -13,12 +15,12 @@ export const getNotes = async (req, res) => {
 export const createNote = async (req, res) => {
     try {
         const {
-            body: { firstName, lastName, email },
+            body: { UserId, content },
         } = req;
-        if (!firstName || !lastName || !email)
+        if (!UserId || !content)
             return res
                 .status(400)
-                .json({ error: 'firstName, lastName, and email are required' });
+                .json({ error: 'userId and content are required' });
         const note = await Note.create(req.body);
         res.json(note);
     } catch (error) {
@@ -31,7 +33,7 @@ export const getNoteById = async (req, res) => {
         const {
             params: { id },
         } = req;
-        const note = await Note.findByPk(id);
+        const note = await Note.findByPk(id, { include: User });
         if (!note) return res.status(404).json({ error: 'Note not found' });
         res.json(note);
     } catch (error) {
@@ -42,13 +44,11 @@ export const getNoteById = async (req, res) => {
 export const updateNote = async (req, res) => {
     try {
         const {
-            body: { firstName, lastName, email },
+            body: { content },
             params: { id },
         } = req;
-        if (!firstName || !lastName || !email)
-            return res
-                .status(400)
-                .json({ error: 'firstName, lastName, and email are required' });
+        if (!content)
+            return res.status(400).json({ error: 'content required' });
         const note = await Note.findByPk(id);
         if (!note) return res.status(404).json({ error: 'Note not found' });
         await note.update(req.body);

@@ -1,6 +1,7 @@
 // Import express and the db file just for side effects (to connect to the database)
 import express from 'express';
 import './db/associations.js';
+// import './db/index.js';
 import {
     createUser,
     deleteUser,
@@ -16,7 +17,6 @@ import {
     getNotes,
     updateNote,
 } from './controllers/notes.js';
-import './db/index.js';
 // Create an express app
 const app = express();
 // Set a port from the environment variable or default to 8080
