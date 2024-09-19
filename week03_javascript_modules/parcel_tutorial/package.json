@@ -1,9 +1,9 @@
 {
     "name": "parcel-tutorial",
-    "source": "index.html",
+    "source": "src/index.html",
     "scripts": {
         "dev": "parcel",
-        "build": "parcel build"
+        "build": "parcel build src/index.html"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.19",
