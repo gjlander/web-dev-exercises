@@ -1,97 +1,78 @@
-const Book = require('../models/Book.js');
+import asyncHandler from '../utils/asyncHandler.js';
+import ErrorResponse from '../utils/ErrorResponse.js';
+import Book from '../models/Book.js';
 
 // get all books
-const getAllBooks = async (req, res) => {
-    try {
-        const books = await Book.find();
-        if (!books.length) {
-            res.status(200).json({ msg: 'No books in the DB' });
-        } else {
-            res.status(200).json({ books });
-        }
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
+const getAllBooks = asyncHandler(async (req, res) => {
+    const books = await Book.find();
 
-// get one book
-const getOneBook = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const book = await Book.findById(id);
-
-        if (book) {
-            return res.status(200).json(book);
-        }
-        res.status(404).json({ msg: 'I did not find this book :(' });
-    } catch (error) {
-        res.status(500).json(error);
+    if (!books.length) {
+        return res.status(200).json({ msg: 'No books in the DB' });
     }
-};
+
+    res.status(200).json(books);
+});
 
 // create a new book
-const createBook = async (req, res) => {
-    try {
-        // We grab exactly the keys that we have in the blueprint (Schema)
-        const { title, isbn, author } = req.body;
-        const book = await Book.create({ title, isbn, author });
-        res.status(201).json(book);
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
+const createBook = asyncHandler(async (req, res) => {
+    // We grab exactly the keys that we have in the blueprint (Schema)
+    const { title, isbn, author } = req.body;
+
+    if (!title || !isbn || !author)
+        throw new ErrorResponse('title, isbn, and author are required', 400);
+
+    const found = await Book.findOne({ isbn });
+
+    if (found) throw new ErrorResponse('Isbn already exists', 400);
+
+    const book = await Book.create({ title, isbn, author });
+
+    res.status(201).json(book);
+});
+
+// get one book
+const getOneBook = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const book = await Book.findById(id);
+
+    if (!book) throw new ErrorResponse('Book not found', 404);
+
+    res.status(200).json(book);
+});
 
 // update a book
-const updateBook = async (req, res) => {
-    try {
-        const { title, isbn, author } = req.body;
-        const { id } = req.params;
+const updateBook = asyncHandler(async (req, res) => {
+    const { title, isbn, author } = req.body;
+    const { id } = req.params;
 
-        const book = await Book.findByIdAndUpdate(
-            id,
-            { title, isbn, author },
-            {
-                new: true,
-            }
-        );
+    if (!title || !isbn || !author)
+        throw new ErrorResponse('title, isbn, and author are required', 400);
 
-        if (!book) {
-            res.status(404).json({ msg: "I don't know this book :(" });
-        } else {
-            res.status(200).json({
-                msg: 'Book updated successfully',
-                book,
-            });
+    const book = await Book.findByIdAndUpdate(
+        id,
+        { title, isbn, author },
+        {
+            new: true,
         }
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
+    );
+
+    if (!book) throw new ErrorResponse('Book not found', 404);
+
+    res.status(200).json(book);
+});
 
 // delete a book
-const deleteOneBook = async (req, res) => {
-    try {
-        const { id } = req.params;
+const deleteOneBook = asyncHandler(async (req, res) => {
+    const { id } = req.params;
 
-        const book = await Book.findByIdAndDelete(id);
+    const book = await Book.findByIdAndDelete(id);
 
-        if (!book) {
-            res.status(404).json({ msg: "I don't know this book :(" });
-        } else {
-            res.status(200).json({
-                msg: 'Book deleted successfully',
-                book,
-            });
-        }
-    } catch (error) {
-        res.status(500).json(error);
-    }
-};
+    if (!book) throw new ErrorResponse('Book not found', 404);
 
-module.exports = {
-    getAllBooks,
-    getOneBook,
-    createBook,
-    updateBook,
-    deleteOneBook,
-};
+    res.status(200).json({
+        message: 'Book deleted successfully',
+    });
+});
+
+export { getAllBooks, getOneBook, createBook, updateBook, deleteOneBook };

@@ -1,7 +1,7 @@
-const express = require('express');
+import { Router } from 'express';
 
 // import all the controllers
-const {
+import {
     getAllUsers,
     getOneUser,
     createUser,
@@ -10,10 +10,10 @@ const {
     addBookToList,
     removeBookFromList,
     updateBookInList,
-} = require('../controllers/userControllers.js');
+} from '../controllers/userControllers.js';
 
 // create a new instance or express router
-const userRouter = express.Router();
+const userRouter = Router();
 
 // decide which controllers to execute on the specific actions
 userRouter.route('/').get(getAllUsers).post(createUser);
@@ -27,4 +27,4 @@ userRouter
     .put(updateBookInList)
     .delete(removeBookFromList);
 
-module.exports = userRouter;
+export default userRouter;
