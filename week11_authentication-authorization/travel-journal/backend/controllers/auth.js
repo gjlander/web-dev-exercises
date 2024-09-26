@@ -69,6 +69,19 @@ const signIn = asyncHandler(async (req, res) => {
     res.status(201).json({ success: 'welcome back' });
 });
 
+const signOut = asyncHandler(async (req, res) => {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const cookieOptions = {
+        httpOnly: true,
+        sameSite: isProduction ? 'None' : 'Lax',
+        secure: isProduction,
+    };
+
+    res.clearCookie('token', cookieOptions);
+
+    res.json({ success: 'You have signed out.' });
+});
+
 const me = asyncHandler(async (req, res) => {
     const user = await User.findById(req.userId);
 
@@ -77,7 +90,7 @@ const me = asyncHandler(async (req, res) => {
     res.status(200).json(user);
 });
 
-export { signUp, signIn, me };
+export { signUp, signIn, signOut, me };
 
 // // get all users
 // const getAllUsers = asyncHandler(async (req, res) => {

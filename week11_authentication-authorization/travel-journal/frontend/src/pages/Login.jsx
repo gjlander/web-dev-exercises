@@ -1,9 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { signin } from '@/data';
+import { useAuth } from '@/context';
 
 const Login = () => {
+    const location = useLocation();
+    const { isAuthenticated, setCheckSession, setIsAuthenticated } = useAuth();
+
     const [{ email, password }, setForm] = useState({
         email: '',
         password: '',
@@ -26,12 +30,17 @@ const Login = () => {
             const signinRes = await signin({ email, password });
 
             console.log(signinRes);
+
+            setIsAuthenticated(true);
+            setCheckSession(true);
         } catch (error) {
             toast.error(error.message);
         } finally {
             setLoading(false);
         }
     };
+
+    if (isAuthenticated) return <Navigate to={location.state?.next || '/'} />;
 
     return (
         <form

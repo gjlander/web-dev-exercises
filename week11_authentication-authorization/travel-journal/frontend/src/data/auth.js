@@ -5,24 +5,21 @@ if (!API_URL)
 
 const baseURL = `${API_URL}/auth`;
 
-export const me = async (formData) => {
-    const res = await fetch(`${baseURL}/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+export const me = async () => {
+    const res = await fetch(`${baseURL}/me`, {
         credentials: 'include',
     });
 
     if (!res.ok) {
         const errorData = await res.json();
         if (!errorData.error) {
-            throw new Error('An error occurred while creating the post');
+            throw new Error('An error occurred signing in');
         }
         throw new Error(errorData.error);
     }
+
     const data = await res.json();
+    // console.log(data);
     return data;
 };
 
@@ -65,5 +62,24 @@ export const signup = async (formData) => {
         throw new Error(errorData.error);
     }
     const data = await res.json();
+    return data;
+};
+
+export const signout = async () => {
+    const res = await fetch(`${baseURL}/signout`, {
+        method: 'DELETE',
+        credentials: 'include',
+    });
+
+    if (!res.ok) {
+        const errorData = await res.json();
+        if (!errorData.error) {
+            throw new Error('An error occurred signing out');
+        }
+        throw new Error(errorData.error);
+    }
+
+    const data = await res.json();
+    // console.log(data);
     return data;
 };
