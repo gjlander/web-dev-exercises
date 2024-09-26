@@ -16,7 +16,10 @@ const verifyToken = asyncHandler(async (req, res, next) => {
 
     // const token = cookiesObj.token;
 
-    const [_, token] = req.headers.cookie.split('=');
+    if (!req.headers.cookie)
+        return res.status(401).json({ error: 'Unauthorized. Please sign in' });
+
+    const [_, token] = req.headers.cookie?.split('=');
 
     // console.log(token);
 
