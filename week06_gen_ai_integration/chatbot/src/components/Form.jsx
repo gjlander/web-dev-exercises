@@ -9,7 +9,11 @@ const Form = ({ chatRef, messages, setMessages }) => {
         try {
             // Prevent the form from submitting
             e.preventDefault();
+            console.log(messages.length);
 
+            if (messages.length > 9) {
+                throw new Error('Message limit reached.');
+            }
             // Disable the submit button
             setIsLoading(true);
 
@@ -143,6 +147,7 @@ const Form = ({ chatRef, messages, setMessages }) => {
             }
         } catch (error) {
             // If an error occurs, log it to the console
+            alert(error.message);
             console.error(error);
         } finally {
             // Enable the submit button
