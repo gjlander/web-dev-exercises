@@ -48,3 +48,42 @@ export const createPost = async (formData) => {
     const data = await res.json();
     return data;
 };
+
+export const updatePost = async (id, formData) => {
+    const res = await fetch(`${baseURL}/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        credentials: 'include',
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        if (!errorData.error) {
+            throw new Error('An error occurred while updating the post');
+        }
+        throw new Error(errorData.error);
+    }
+    const data = await res.json();
+    return data;
+};
+
+export const deletePost = async (id) => {
+    const res = await fetch(`${baseURL}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        if (!errorData.error) {
+            throw new Error('An error occurred while updating the post');
+        }
+        throw new Error(errorData.error);
+    }
+    const data = await res.json();
+    return data;
+};
