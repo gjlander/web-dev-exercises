@@ -1,7 +1,10 @@
 import { useTodos } from '../context/context';
 
 const Nav = () => {
-    const { isDark, setIsDark } = useTodos();
+    const {
+        state: { isDark },
+        dispatch,
+    } = useTodos();
 
     return (
         <div>
@@ -9,7 +12,7 @@ const Nav = () => {
                 <input
                     type='checkbox'
                     checked={isDark}
-                    onChange={() => setIsDark((prev) => !prev)}
+                    onChange={() => dispatch({ type: 'DARK_TOGGLED' })}
                 />
                 <span className='dark:text-white'>Dark Mode?</span>
             </label>

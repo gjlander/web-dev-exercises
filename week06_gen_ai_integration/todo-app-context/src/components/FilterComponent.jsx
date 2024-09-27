@@ -1,12 +1,12 @@
 import { useTodos } from '../context/context';
 
 const FilterComponent = () => {
-    const { setFilter } = useTodos();
+    const { dispatch } = useTodos();
 
     const setFilterInView = (filter) => {
         console.log(filter);
 
-        setFilter(filter);
+        dispatch({ type: 'FILTER_SET', payload: filter });
     };
 
     return (

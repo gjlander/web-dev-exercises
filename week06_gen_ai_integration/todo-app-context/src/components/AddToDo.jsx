@@ -2,17 +2,14 @@ import { useState } from 'react';
 import { useTodos } from '../context/context';
 
 const AddToDo = () => {
-    const { setTodos } = useTodos();
+    const { dispatch } = useTodos();
 
     const [newTodo, setNewTodo] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!newTodo) return;
-        setTodos((prevTodos) => [
-            { id: Date.now(), text: newTodo, completed: false },
-            ...prevTodos,
-        ]);
+        dispatch({ type: 'TODO_ADDED', payload: newTodo });
         setNewTodo('');
     };
 
