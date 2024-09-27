@@ -2,8 +2,8 @@
 import express from 'express';
 import cors from 'cors';
 
+import ErrorResponse from './utils/ErrorResponse.js';
 import errorHandler from './middleware/errorHandler.js';
-import fileRouter from './routers/uploadRouter.js';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -11,7 +11,9 @@ const port = process.env.PORT || 8080;
 app.use(express.json());
 app.use(cors());
 
-app.use('/file-upload', fileRouter);
+app.post('/file-upload', (req, res) => {
+    res.status(201).json({ message: 'Sup, bruh?' });
+});
 
 app.use(errorHandler);
 

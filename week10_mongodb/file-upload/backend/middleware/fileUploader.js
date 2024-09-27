@@ -1,17 +1,14 @@
 import multer from 'multer';
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, '/tmp/my-uploads');
+    destination: (req, file, callback) => {
+        callback(null, './uploads'); // ->("./uploads")  this is the destination where files will save in the HArdDisk Storage
     },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + '-' + uniqueSuffix);
+    filename: (req, file, callback) => {
+        callback(null, file.originalname);
     },
 });
 
-const upload = multer({ storage: storage });
-
-const fileUploader = upload.single('image');
+const fileUploader = multer({ storage });
 
 export default fileUploader;
