@@ -1,5 +1,6 @@
 import Markdown from 'marked-react';
 import { Refractor, registerLanguage } from 'react-refractor';
+import { useOutletContext } from 'react-router-dom';
 
 import bash from 'refractor/lang/bash';
 import js from 'refractor/lang/javascript.js';
@@ -23,6 +24,7 @@ const renderer = {
 };
 
 const ChatBubble = ({ role, content }) => {
+    const { base64 } = useOutletContext();
     return (
         <div
             className={`chat ${
@@ -30,9 +32,19 @@ const ChatBubble = ({ role, content }) => {
             }`}
         >
             <div className='chat-image avatar'>
-                <div className='w-10 rounded-full py-1 text-center'>
-                    {role === 'assistant' ? 'Bot' : 'You'}
-                </div>
+                {role === 'assistant' ? (
+                    <div className='w-10 rounded-full py-1 text-center'>
+                        Bot
+                    </div>
+                ) : (
+                    <div className='w-10 rounded-full py-1 text-center'>
+                        {base64 ? (
+                            <img src={`data:image/png;base64,${base64}`} />
+                        ) : (
+                            'You'
+                        )}
+                    </div>
+                )}
             </div>
             <div
                 className={`chat-bubble ${

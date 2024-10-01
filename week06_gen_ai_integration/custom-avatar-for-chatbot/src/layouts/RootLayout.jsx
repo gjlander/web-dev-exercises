@@ -11,10 +11,15 @@ const RootLayout = () => {
             content: 'You are a web developer.',
         },
     ]);
+    const [base64, setBase64] = useState(
+        JSON.parse(localStorage.getItem('avatar')) || ''
+    );
     return (
         <div>
             <Navbar />
-            <Outlet context={{ chatRef, messages, setMessages }} />
+            <Outlet
+                context={{ chatRef, messages, setMessages, base64, setBase64 }}
+            />
         </div>
     );
 };
