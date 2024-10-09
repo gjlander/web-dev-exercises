@@ -4,15 +4,26 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Home</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css"
+            rel="stylesheet"
+            type="text/css"
+        />
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="main.js" defer></script>
     </head>
     <body>
         <nav>
-            <ul class="flex gap-2">
+            <ul class="flex gap-4">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="journal.html">Journal</a></li>
             </ul>
         </nav>
+        <main>
+            <section
+                id="movies-container"
+                class="grid grid-cols-4 grid-rows-5 gap-4 p-6"
+            ></section>
+        </main>
     </body>
 </html>
