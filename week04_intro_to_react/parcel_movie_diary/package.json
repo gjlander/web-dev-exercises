@@ -1,6 +1,9 @@
 {
     "name": "parcel-movie-diary",
-    "source": "index.html",
+    "source": [
+        "index.html",
+        "./src/page.html"
+    ],
     "scripts": {
         "dev": "parcel",
         "build": "parcel build"
