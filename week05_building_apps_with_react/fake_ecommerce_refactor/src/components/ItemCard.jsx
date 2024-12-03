@@ -13,7 +13,7 @@ const ItemCard = ({ product }) => {
                 <h2 className='card-title'>{title}</h2>
                 <p>Price: ${price.toFixed(2)}</p>
                 <div className='card-actions justify-end items-center'>
-                    <Link to={`categories/${category}`}>{category}</Link>
+                    <Link to={`/categories/${category}`}>{category}</Link>
                     <CartBtn product={product} />
                 </div>
             </div>

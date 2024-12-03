@@ -3,12 +3,12 @@ import LightBulb from './components/LightBulb';
 
 const App = () => {
     const [lightOn, setLightOn] = useState(false);
-    const lightSwitch = () => {
+    const toggleLight = () => {
         setLightOn((prev) => !prev);
     };
     return (
         <>
-            <button onClick={lightSwitch}>Switch</button>
+            <button onClick={toggleLight}>Switch</button>
             <LightBulb lightOn={lightOn} />
         </>
     );

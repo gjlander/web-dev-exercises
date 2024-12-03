@@ -37,7 +37,7 @@ const App = () => {
                 }}
                 onSubmit={handleSubmit}
             >
-                <label htmlFor='name'>
+                <label>
                     Name:
                     <input
                         value={form.name}
@@ -47,7 +47,7 @@ const App = () => {
                         name='name'
                     />
                 </label>
-                <label htmlFor='email'>
+                <label>
                     Email:
                     <input
                         value={form.email}
@@ -57,7 +57,7 @@ const App = () => {
                         name='email'
                     />
                 </label>
-                <label htmlFor='tel'>
+                <label>
                     Telephone:
                     <input
                         value={form.tel}
@@ -67,7 +67,7 @@ const App = () => {
                         name='tel'
                     />
                 </label>
-                <label htmlFor='message'>
+                <label>
                     Message:
                     <textarea
                         value={form.message}

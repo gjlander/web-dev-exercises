@@ -1,11 +1,16 @@
+console.log('Pig latin ran.');
+
 const args = process.argv.slice(2);
 
-if (args.length !== 1) {
-    return console.error('Please enter your phrase surrounded by quotes.');
-}
+console.log(args[0]);
+
+// if (args.length !== 1) {
+//     return console.error('Please enter your phrase surrounded by quotes.');
+// }
+
 const phraseArray = args[0].split(' ');
 
-// console.log(phraseArray);
+console.log(phraseArray);
 
 const vowels = ['a', 'e', 'i', 'o', 'u'];
 

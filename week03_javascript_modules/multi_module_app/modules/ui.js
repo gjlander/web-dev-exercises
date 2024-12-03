@@ -1,17 +1,15 @@
-import { fetchProducts } from './network.js';
 import { addToCart } from './storage.js';
 const productsContainer = document.querySelector('#products-container');
 
-const allProducts = await fetchProducts();
-
-const renderProducts = () => {
-    allProducts.forEach((product) => {
+const renderProducts = (products) => {
+    products.forEach((product) => {
         const card = document.createElement('div');
         card.id = product.id;
-        card.className = 'card bg-base-100 w-96 shadow-xl';
+        card.className = 'card bg-base-100 shadow-xl';
 
         const figure = document.createElement('figure');
         figure.className = 'h-1/2';
+
         const img = document.createElement('img');
         img.className = 'w-full h-full';
         img.src = product.image;
@@ -20,10 +18,13 @@ const renderProducts = () => {
 
         const cardBody = document.createElement('div');
         cardBody.className = 'card-body';
+
         const cardTitle = document.createElement('h2');
         cardTitle.className = 'card-title';
+
         cardTitle.textContent = product.title;
         cardBody.appendChild(cardTitle);
+
         const price = document.createElement('p');
         price.textContent = product.price;
         cardBody.appendChild(price);

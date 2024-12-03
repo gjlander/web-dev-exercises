@@ -1,3 +1,6 @@
+import { fetchProducts } from './modules/network.js';
 import { renderProducts } from './modules/ui.js';
 
-renderProducts();
+const allProducts = await fetchProducts();
+
+renderProducts(allProducts);

@@ -1,10 +1,10 @@
 {
-    "name": "express-body-validation",
+    "name": "file-upload-multer-backend",
     "version": "1.0.0",
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "node --env-file=.env --watch index.js",
+        "dev": "node --watch index.js",
         "start": "node index.js"
     },
     "keywords": [],
@@ -14,12 +14,6 @@
     "dependencies": {
         "cors": "^2.8.5",
         "express": "^4.19.2",
-        "joi": "^17.13.3",
-        "multer": "^1.4.5-lts.1",
-        "pg": "^8.12.0",
-        "sequelize": "^6.37.3"
-    },
-    "devDependencies": {
-        "dotenv": "^16.4.5"
+        "multer": "^1.4.5-lts.1"
     }
 }

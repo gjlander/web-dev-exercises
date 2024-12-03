@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { fetchAllPokemon } from '../lib/pokemon';
 import PokemonCard from '../components/PokemonCard';
 
@@ -10,9 +12,11 @@ const Home = () => {
             .catch((err) => console.error(err));
     }, []);
     return (
-        <div className='grid grid-cols-6 gap-6'>
+        <div className='p-4 grid grid-cols-6 gap-6'>
             {allPokemon.map((p) => (
-                <PokemonCard key={p.id} {...p} />
+                <Link key={p.id} to={`pokemon/${p.id}`}>
+                    <PokemonCard {...p} />
+                </Link>
             ))}
         </div>
     );
