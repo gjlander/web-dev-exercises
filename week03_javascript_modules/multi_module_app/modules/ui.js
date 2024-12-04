@@ -36,7 +36,7 @@ const renderProducts = (products) => {
         addBtn.id = product.id;
         addBtn.textContent = 'Add to cart';
         addBtn.addEventListener('click', () => {
-            addToCart(allProducts, product.id);
+            addToCart(product);
         });
         cardActions.appendChild(addBtn);
 

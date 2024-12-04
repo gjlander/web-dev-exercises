@@ -1,7 +1,6 @@
-const addToCart = (array, id) => {
+const addToCart = (product) => {
     const currCart = JSON.parse(localStorage.getItem('cart')) || [];
-    const newItem = array.find((prod) => prod.id === id);
-    currCart.push(newItem);
+    currCart.push(product);
     localStorage.setItem('cart', JSON.stringify(currCart));
 };
 export { addToCart };
