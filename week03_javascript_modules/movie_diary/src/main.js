@@ -104,19 +104,6 @@ const renderSearchResults = (moviesArray) => {
         card.appendChild(cardBody);
 
         resultsCont.appendChild(card);
-
-        // moviesCont.innerHTML += `<div class="transition ease-in-out delay-150 shadow-xl hover:shadow-2xl h-[44rem] hover:cursor-pointer hover:scale-105 rounded-lg">
-        // <figure class='rounded-t-lg overflow-hidden h-96'>
-        //  <img
-        //  class="w-full"
-        //      src=${IMG_URL + poster_path}
-        //      alt=${original_title} />
-        // </figure>
-        // <div class="flex flex-col px-4 py-2 rounded-b-lg bg-slate-100 dark:bg-slate-800 h-80">
-        //     <h2 class="text-4xl border-b-2 mb-4 border-b-gray-400">${original_title}</h2>
-        //     <p>${overview}</p>
-        // </div>
-        // </div>`;
     });
 };
 
