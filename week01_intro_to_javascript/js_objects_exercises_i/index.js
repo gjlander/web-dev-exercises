@@ -15,7 +15,9 @@ const book = {
     pages: 173,
     isRead: true,
     summary() {
-        return `Title: ${this.title}, Author: ${this.author}, Pages: ${this.pages}, Read: ${this.isRead}`;
+        return `Title: ${this.title}, Author: ${this.author}, Pages: ${
+            this.pages
+        }, Read: ${this.isRead ? 'Yes' : 'No'}`;
     },
 };
 console.log(book.summary());
