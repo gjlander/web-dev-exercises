@@ -140,12 +140,15 @@ const somePeople = [
 // Loop through the array of objects and log all the names to the console
 // for loop
 for (let i = 0; i < somePeople.length; i++) {
+    // can still use dot notation or destructuring
     const { name } = somePeople[i];
     console.log(`name of some person at index ${i}: `, name);
+
     // console.log(`name of some person at index ${i}: `, somePeople[i].name);
 }
 //for ... of loop
 for (const somePerson of somePeople) {
+    // can still use dot notation or destructuring
     const { name } = somePerson;
     console.log(`name of somePerson: `, name);
     // console.log(`name of somePerson: `, somePerson.name);

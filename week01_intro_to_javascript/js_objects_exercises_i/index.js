@@ -35,26 +35,31 @@ const person = {
         zip: '10001',
     },
 };
-// Initial function
-function displayPerson(person) {
-    console.log(`Name: ${person.name}, Age: ${person.age}`);
-}
 
 //Simple Array Destructuring
 const [fruit1, fruit2] = fruits;
 console.log(fruit1, fruit2);
+
 //Skipping Elements in Array Destructuring
 const [first, , third] = fruits;
 console.log(first);
 console.log(third);
+
 //Simple Object Destructuring
 const { name, age } = person;
 console.log(name, age);
+
 //Nested Object Destructuring
 const {
     address: { city, zip },
 } = person;
 console.log(city, zip);
+
+// Initial function
+function displayPerson(person) {
+    console.log(`Name: ${person.name}, Age: ${person.age}`);
+}
+
 //Destructuring in Function Parameters
 function destPerson({ name, age }) {
     console.log(`Name: ${name}, Age: ${age}`);

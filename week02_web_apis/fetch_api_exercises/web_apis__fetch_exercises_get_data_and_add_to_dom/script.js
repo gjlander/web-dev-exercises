@@ -12,8 +12,8 @@ const fetchAndRenderTodos = async () => {
         li.setAttribute('id', todo.id);
         li.textContent = todo.title;
         todo.completed
-            ? li.classList.add('bg-green-500', 'border-2')
-            : li.classList.add('bg-orange-500', 'border-2');
+            ? (li.className = 'bg-green-500 border-2')
+            : (li.className = 'bg-red-500 border-2');
         todoList.appendChild(li);
     });
 };
