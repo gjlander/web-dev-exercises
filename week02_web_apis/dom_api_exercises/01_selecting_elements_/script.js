@@ -15,9 +15,10 @@ header.style.backgroundColor = '#b5651d';
 
 heading.style.fontSize = '3rem';
 
-for (const link of navLinks) {
-    link.style.color = '#faf0e6';
-}
+navLinks.forEach((link) => (link.style.color = '#faf0e6'));
+// for (const link of navLinks) {
+//     link.style.color = '#faf0e6';
+// }
 
 const hero = document.querySelector('.hero-content');
 const newP = document.createElement('p');
