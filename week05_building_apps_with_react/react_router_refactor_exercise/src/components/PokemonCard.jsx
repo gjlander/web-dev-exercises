@@ -1,14 +1,12 @@
-const PokemonCard = ({ name, sprites, id, types }) => {
+const PokemonCard = ({ name, sprite, id }) => {
     return (
         <div className='card glass  bg-base-100 shadow-xl'>
             <figure>
-                <img src={sprites.front_default} alt={name} />
+                <img src={sprite} alt={name} />
             </figure>
             <div className='card-body'>
                 <h2 className='card-title'>{name}</h2>
-                <p>{`ID: ${id} | Type: ${types
-                    .map((typeInfo) => typeInfo.type.name)
-                    .join(', ')}`}</p>
+                <p>{`ID: ${id}`}</p>
             </div>
         </div>
     );
