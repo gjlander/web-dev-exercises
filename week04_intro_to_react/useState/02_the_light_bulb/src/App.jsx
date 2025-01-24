@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import LightBulb from './components/LightBulb';
+import './style.css';
 
 const App = () => {
     const [lightOn, setLightOn] = useState(false);

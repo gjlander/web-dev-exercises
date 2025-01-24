@@ -1,6 +1,3 @@
-// You can work here or download the template
-// Your components go here
-
 import { useState } from 'react';
 
 const App = () => {
@@ -13,8 +10,10 @@ const App = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!form.name || !form.email || !form.tel || !form.message)
-            return alert('Please fill out all fields!');
+        if (!form.name || !form.email || !form.tel || !form.message) {
+            alert('Please fill out all fields!');
+            return;
+        }
         console.log(form);
         setForm({
             name: '',
@@ -43,7 +42,6 @@ const App = () => {
                         value={form.name}
                         onChange={handleChange}
                         type='text'
-                        id='name'
                         name='name'
                     />
                 </label>
@@ -53,7 +51,6 @@ const App = () => {
                         value={form.email}
                         onChange={handleChange}
                         type='email'
-                        id='email'
                         name='email'
                     />
                 </label>
@@ -63,7 +60,6 @@ const App = () => {
                         value={form.tel}
                         onChange={handleChange}
                         type='tel'
-                        id='tel'
                         name='tel'
                     />
                 </label>
@@ -73,7 +69,6 @@ const App = () => {
                         value={form.message}
                         onChange={handleChange}
                         name='message'
-                        id='message'
                     ></textarea>
                 </label>
                 <button type='submit'>Submit</button>
