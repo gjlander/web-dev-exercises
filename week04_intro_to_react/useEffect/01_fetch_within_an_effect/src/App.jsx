@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react';
-
+import { getTodos } from './data/placeholder';
 const App = () => {
-    const [posts, setPosts] = useState([]);
+    const [todos, setTodos] = useState([]);
 
     useEffect(() => {
         let ignore = false;
-        const getPosts = async () => {
+        (async () => {
             try {
-                const res = await fetch(
-                    `https://jsonplaceholder.typicode.com/posts`
-                );
-                if (!res.ok) throw new Error('Something went wrong');
-                const data = await res.json();
+                const allTodos = await getTodos();
                 if (!ignore) {
-                    setPosts(data);
+                    setTodos(allTodos);
                 }
             } catch (e) {
                 console.error(e);
             }
-        };
-        getPosts();
+        })();
 
         return () => {
             ignore = true;
@@ -28,7 +23,7 @@ const App = () => {
 
     return (
         <ul>
-            {posts.map((p) => {
+            {todos.map((p) => {
                 return (
                     <li key={p.id}>
                         <span>{p.title}</span>
