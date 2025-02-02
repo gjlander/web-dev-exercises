@@ -1,8 +1,8 @@
-# React + Vite
+# React Router Movie Diary Refactor Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## How to use this template repo
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Click the green `Use this template` button in the upper right-hand corner to create a copy for yourself
+2. Clone the repo, and run `npm i` to install all of the dependencies. TailwindCSS and DaisyUI are already configured
+3. Rename `example.env.local` to `.env.local`, and update the value of `VITE_TMDB_KEY` to your TMDB authorization key (found in the TMDB website)
+4. Install `react-router` (NOT `react-router-dom`) and continue the instructions on the [React Router exercise](https://learn.wbscodingschool.com/courses/full-stack-web-app/lessons/%F0%9F%A7%A9-react-router/)
