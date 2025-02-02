@@ -1,6 +1,6 @@
 const PokemonCard = ({ name, sprite, id }) => {
     return (
-        <div className='card glass  bg-base-100 shadow-xl'>
+        <div className='card glass bg-base-100 shadow-xl'>
             <figure>
                 <img src={sprite} alt={name} />
             </figure>
