@@ -3,7 +3,7 @@ import { getCategories } from '../data/fakeStore';
 import { Link } from 'react-router';
 const CatList = () => {
     const [cats, setCats] = useState([]);
-    console.log(cats);
+    // console.log(cats);
     useEffect(() => {
         (async () => {
             try {

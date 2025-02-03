@@ -1,5 +1,14 @@
-import { Link } from 'react-router';
-const ProdCard = ({ title, price, category, image }) => {
+import { Link, useOutletContext } from 'react-router';
+import { addToCart, checkInCart } from '../utils/cartUtils';
+import CartBtns from './CartBtns';
+const ProdCard = ({ product }) => {
+    const { title, price, category, image } = product;
+    const { cart, setCart } = useOutletContext();
+    const prodInCart = checkInCart(cart, product);
+    const handleAddToCart = () => {
+        const newCart = addToCart(cart, product);
+        setCart(newCart);
+    };
     return (
         <div className='card glass'>
             <figure className='bg-white h-48 p-3'>
@@ -19,7 +28,16 @@ const ProdCard = ({ title, price, category, image }) => {
                     >
                         see more in {category}
                     </Link>
-                    <button className='btn btn-primary'>Add to cart</button>
+                    {prodInCart ? (
+                        <CartBtns product={product} count={prodInCart.count} />
+                    ) : (
+                        <button
+                            onClick={handleAddToCart}
+                            className='btn btn-primary'
+                        >
+                            Add to cart
+                        </button>
+                    )}
                 </div>
             </div>
         </div>
