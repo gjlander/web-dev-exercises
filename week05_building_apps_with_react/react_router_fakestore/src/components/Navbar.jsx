@@ -1,5 +1,8 @@
 import { Link } from 'react-router';
-const Navbar = () => {
+import { calcCartCost, calcCartCount } from '../utils/cartUtils';
+const Navbar = ({ cart }) => {
+    const cartCost = calcCartCost(cart);
+    const cartCount = calcCartCount(cart);
     return (
         <div className='navbar bg-base-100'>
             <div className='flex-1'>
@@ -30,7 +33,7 @@ const Navbar = () => {
                                 />
                             </svg>
                             <span className='badge badge-sm indicator-item'>
-                                8
+                                {cartCount}
                             </span>
                         </div>
                     </div>
@@ -39,8 +42,12 @@ const Navbar = () => {
                         className='card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow'
                     >
                         <div className='card-body'>
-                            <span className='text-lg font-bold'>8 Items</span>
-                            <span className='text-info'>Subtotal: $999</span>
+                            <span className='text-lg font-bold'>
+                                {cartCount} Items
+                            </span>
+                            <span className='text-info'>
+                                Subtotal: {cartCost.toFixed(2)}€
+                            </span>
                             <div className='card-actions'>
                                 <Link to='/cart'>
                                     <button className='btn btn-primary btn-block'>

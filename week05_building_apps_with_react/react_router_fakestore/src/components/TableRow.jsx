@@ -1,4 +1,7 @@
-const TableRow = ({ image, title, category }) => {
+import CartBtns from './CartBtns';
+const TableRow = ({ product }) => {
+    const { image, title, category, count, price } = product;
+    const rowPrice = count * price;
     return (
         <tr>
             <td>
@@ -15,9 +18,9 @@ const TableRow = ({ image, title, category }) => {
                 </div>
             </td>
             <td>
-                <button className='btn btn-primary'>Add to cart</button>
+                <CartBtns product={product} />
             </td>
-            <td>450 €</td>
+            <td>{rowPrice.toFixed(2)} €</td>
         </tr>
     );
 };

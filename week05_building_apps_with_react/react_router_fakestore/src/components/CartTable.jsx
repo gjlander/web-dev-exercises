@@ -1,5 +1,9 @@
+import { useOutletContext } from 'react-router';
+import { calcCartCost } from '../utils/cartUtils';
 import TableRow from './TableRow';
-const CartTable = ({ products }) => {
+const CartTable = () => {
+    const { cart } = useOutletContext();
+    const cartCost = calcCartCost(cart);
     return (
         <div className='overflow-x-auto border-2 rounded-lg'>
             <table className='table'>
@@ -12,8 +16,8 @@ const CartTable = ({ products }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {products.map((prod) => (
-                        <TableRow key={prod.id} {...prod} />
+                    {cart.map((prod) => (
+                        <TableRow key={prod.id} product={prod} />
                     ))}
                 </tbody>
                 {/* foot */}
@@ -21,7 +25,7 @@ const CartTable = ({ products }) => {
                     <tr>
                         <th></th>
                         <th></th>
-                        <th>Total cost: 730€</th>
+                        <th>Total cost: {cartCost.toFixed(2)}€</th>
                     </tr>
                 </tfoot>
             </table>

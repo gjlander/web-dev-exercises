@@ -1,6 +1,11 @@
 const checkInCart = (cart, product) =>
     cart?.find((item) => product.id === item.id);
 
+const calcCartCost = (cart) =>
+    cart.reduce((acc, item) => acc + item.price * item.count, 0);
+
+const calcCartCount = (cart) => cart.reduce((acc, item) => acc + item.count, 0);
+
 const addToCart = (cart, product) => {
     const prodInCart = checkInCart(cart, product);
     let updatedCart = [];
@@ -34,4 +39,4 @@ const removeFromCart = (cart, product) => {
     return updatedCart;
 };
 
-export { addToCart, checkInCart, removeFromCart };
+export { addToCart, calcCartCost, calcCartCount, checkInCart, removeFromCart };

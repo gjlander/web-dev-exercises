@@ -1,26 +1,38 @@
 import { useOutletContext } from 'react-router';
-import { addToCart, removeFromCart } from '../utils/cartUtils';
-const CartBtns = ({ product, count }) => {
-    // console.log('prodInCart', prodInCart);
+import { addToCart, checkInCart, removeFromCart } from '../utils/cartUtils';
+const CartBtns = ({ product }) => {
     const { cart, setCart } = useOutletContext();
+    const prodInCart = checkInCart(cart, product);
     const handleAddToCart = () => {
-        const newCart = addToCart(cart, product);
-        setCart(newCart);
+        setCart((prev) => addToCart(prev, product));
     };
     const handleRemoveFromCart = () => {
-        const newCart = removeFromCart(cart, product);
-        setCart(newCart);
+        setCart((prev) => removeFromCart(prev, product));
     };
     return (
-        <div className='flex gap-2 items-baseline'>
-            <button onClick={handleRemoveFromCart} className='btn btn-primary'>
-                -
-            </button>
-            <span>{count}</span>
-            <button onClick={handleAddToCart} className='btn btn-primary'>
-                +
-            </button>
-        </div>
+        <>
+            {prodInCart ? (
+                <div className='flex gap-2 items-baseline'>
+                    <button
+                        onClick={handleRemoveFromCart}
+                        className='btn btn-primary'
+                    >
+                        -
+                    </button>
+                    <span>{prodInCart.count}</span>
+                    <button
+                        onClick={handleAddToCart}
+                        className='btn btn-primary'
+                    >
+                        +
+                    </button>
+                </div>
+            ) : (
+                <button onClick={handleAddToCart} className='btn btn-primary'>
+                    Add to cart
+                </button>
+            )}
+        </>
     );
 };
 
