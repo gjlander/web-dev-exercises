@@ -1,11 +1,13 @@
 import { Link, NavLink, useNavigate } from 'react-router';
 //nothing new here, just accessing the props
-const Navbar = ({ signedIn, setSignedIn }) => {
+const Navbar = ({ signedIn, setSignedIn, user, setUser }) => {
     const navigate = useNavigate();
-    const handleSignIn = () => {
-        setSignedIn((prev) => !prev);
+    const handleSignOut = () => {
+        localStorage.removeItem('token');
+        setSignedIn(false);
+        setUser(null);
         setTimeout(() => {
-            navigate('/mypond');
+            navigate('/');
         }, 1000);
     };
     return (
@@ -17,6 +19,7 @@ const Navbar = ({ signedIn, setSignedIn }) => {
             </div>
 
             <div className='navbar-end'>
+                {user && <p className='mr-2'>Welcome back, {user.firstName}</p>}
                 <ul className='menu menu-horizontal items-baseline gap-2'>
                     <li>
                         <NavLink to='/'>Home</NavLink>
@@ -24,15 +27,17 @@ const Navbar = ({ signedIn, setSignedIn }) => {
                     <li>
                         <NavLink to='/mypond'>My Pond</NavLink>
                     </li>
-                    <li>
-                        {signedIn ? (
+                    {signedIn ? (
+                        <li>
                             <button
                                 className='btn btn-primary'
-                                onClick={handleSignIn}
+                                onClick={handleSignOut}
                             >
                                 Sign Out
                             </button>
-                        ) : (
+                        </li>
+                    ) : (
+                        <li>
                             <Link to='/signin'>
                                 <button
                                     className='btn btn-primary'
@@ -41,8 +46,8 @@ const Navbar = ({ signedIn, setSignedIn }) => {
                                     Sign In
                                 </button>
                             </Link>
-                        )}
-                    </li>
+                        </li>
+                    )}
                 </ul>
             </div>
         </div>

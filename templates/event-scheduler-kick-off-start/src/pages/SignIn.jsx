@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 const SignIn = () => {
-    const [{ email, password }, setForm] = useState({
+    const [form, setForm] = useState({
         email: '',
         password: '',
     });
+    const { email, password } = form;
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) =>
