@@ -14,11 +14,11 @@ const Form = ({ chatRef, messages, setMessages }) => {
             if (messages.length > 9) {
                 throw new Error('Message limit reached.');
             }
-            // Disable the submit button
-            setIsLoading(true);
 
             // If the prompt value is empty, alert the user
             if (!prompt) return alert('Please enter a prompt');
+            // Disable the submit button
+            setIsLoading(true);
 
             const userMessage = {
                 id: crypto.randomUUID(),
