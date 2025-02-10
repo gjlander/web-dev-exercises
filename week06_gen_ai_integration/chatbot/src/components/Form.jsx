@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Form = ({ chatRef, messages, setMessages }) => {
+const Form = ({ messages, setMessages }) => {
     const [isStream, setIsStream] = useState(false);
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -121,7 +121,6 @@ const Form = ({ chatRef, messages, setMessages }) => {
                                         return [...prev, assistantMessage];
                                     }
                                 });
-                                chatRef.current.lastElementChild?.scrollIntoView();
                             }
                         }
                     });
@@ -134,16 +133,7 @@ const Form = ({ chatRef, messages, setMessages }) => {
                     id: crypto.randomUUID(),
                 };
                 // console.log(assistantMessage);
-                setTimeout(() => {
-                    setMessages((prev) => [...prev, assistantMessage]);
-                }, 500);
-                chatRef.current.lastElementChild?.scrollIntoView();
-
-                // Output the response to the results container
-                // resultsContainer.innerHTML = `<p>${marked.parse(
-                //     dataResult.message?.content
-                // )}</p>`;
-                // Prism.highlightAll();
+                setMessages((prev) => [...prev, assistantMessage]);
             }
         } catch (error) {
             // If an error occurs, log it to the console
