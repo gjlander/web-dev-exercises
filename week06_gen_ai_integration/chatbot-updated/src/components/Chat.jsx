@@ -4,7 +4,7 @@ const Chat = ({ messages, chatRef }) => {
         <div
             ref={chatRef}
             id='results'
-            className='h-2/3 w-full p-8 bg-slate-600 rounded-lg shadow-md overflow-y-scroll'
+            className='h-2/3 w-full p-8 bg-slate-600 rounded-lg shadow-md overflow-y-auto'
         >
             {messages?.map((msg) => {
                 if (msg.role === 'system') return null;

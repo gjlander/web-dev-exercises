@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Form = ({ setMessages, messages }) => {
     // control checkbox and textarea with single state
@@ -13,9 +14,9 @@ const Form = ({ setMessages, messages }) => {
             // Prevent the form from submitting
             e.preventDefault();
             // If the prompt value is empty, alert the user
-            if (!prompt) return alert('Please enter a prompt');
+            if (!prompt) throw new Error('Please enter a prompt');
             console.log('messages count: ', messages.length);
-            if (messages.length > 9) return alert('Message limit reached');
+            if (messages.length > 9) throw new Error('Message limit reached');
 
             // Disable the submit button
             setLoading(true);
@@ -137,7 +138,8 @@ const Form = ({ setMessages, messages }) => {
             }
         } catch (error) {
             // If an error occurs, log it to the console
-            console.error(error);
+            // console.error(error);
+            toast.error(error.message);
         } finally {
             // Enable the submit button
             setLoading(false);
@@ -147,15 +149,17 @@ const Form = ({ setMessages, messages }) => {
     return (
         <div className='h-1/3 w-full p-8 bg-slate-600 rounded-lg shadow-md'>
             <form onSubmit={handleSubmit}>
-                <input
-                    id='stream'
-                    type='checkbox'
-                    className='checkbox checkbox-primary'
-                    checked={isStream}
-                    onChange={toggleChecked}
-                    disabled={loading}
-                />
-                <label htmlFor='stream'>Stream response?</label>
+                <label className='flex gap-2 items-center my-2'>
+                    <input
+                        id='stream'
+                        type='checkbox'
+                        className='checkbox checkbox-primary'
+                        checked={isStream}
+                        onChange={toggleChecked}
+                        disabled={loading}
+                    />
+                    <span>Stream response?</span>
+                </label>
                 <textarea
                     value={prompt}
                     onChange={handleChange}

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import './index.css';
 import Form from './components/Form';
 import Chat from './components/Chat';
@@ -25,6 +26,7 @@ function App() {
                 messages={messages}
                 setMessages={setMessages}
             />
+            <ToastContainer autoClose={1500} theme='colored' />
         </div>
     );
 }

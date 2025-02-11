@@ -1,3 +1,27 @@
+import Markdown from 'marked-react';
+import { Refractor, registerLanguage } from 'react-refractor';
+
+import bash from 'refractor/lang/bash';
+import js from 'refractor/lang/javascript.js';
+import php from 'refractor/lang/php.js';
+import python from 'refractor/lang/python.js';
+
+registerLanguage(bash);
+registerLanguage(js);
+registerLanguage(php);
+registerLanguage(python);
+
+const renderer = {
+    code(snippet, lang) {
+        if (!lang) lang = 'bash';
+        const allowedLangs = ['js', 'php', 'python'];
+        if (!allowedLangs.includes(lang)) lang = 'bash';
+        return (
+            <Refractor key={this.elementId} language={lang} value={snippet} />
+        );
+    },
+};
+
 const ChatBubble = ({ content, role }) => {
     return (
         <div
@@ -17,7 +41,9 @@ const ChatBubble = ({ content, role }) => {
                         : 'chat-bubble-primary'
                 }`}
             >
-                {content}
+                <Markdown gfm renderer={renderer}>
+                    {content}
+                </Markdown>
             </div>
         </div>
     );
