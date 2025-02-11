@@ -1,8 +1,9 @@
+import { useState, useRef, useEffect } from 'react';
 import './index.css';
 import Form from './components/Form';
 import Chat from './components/Chat';
-import { useState } from 'react';
 function App() {
+    const chatRef = useRef();
     const [messages, setMessages] = useState([
         {
             id: crypto.randomUUID(),
@@ -11,10 +12,19 @@ function App() {
                 'You are a software developer student that only speaks in rhymes',
         },
     ]);
+    useEffect(() => {
+        chatRef.current?.lastElementChild?.scrollIntoView({
+            behavior: 'smooth',
+        });
+    }, [messages]);
     return (
         <div className='h-screen container mx-auto p-5 flex flex-col justify-between gap-5'>
-            <Chat messages={messages} />
-            <Form messages={messages} setMessages={setMessages} />
+            <Chat chatRef={chatRef} messages={messages} />
+            <Form
+                chatRef={chatRef}
+                messages={messages}
+                setMessages={setMessages}
+            />
         </div>
     );
 }
