@@ -1,4 +1,4 @@
-import { access, writeFile, mkdir, unlink } from 'fs/promises';
+import { access, appendFile, mkdir, unlink } from 'fs/promises';
 import { join } from 'path';
 
 const createFileWithMessage = async (message) => {
@@ -8,10 +8,12 @@ const createFileWithMessage = async (message) => {
         const month = now.toLocaleString('default', { month: '2-digit' });
         const day = now.toLocaleString('default', { day: '2-digit' });
 
+        console.log(date);
+
         const dirName = `${year}-${month}-${day}`;
 
         const fileName =
-            now.toTimeString().slice(0, 8).replaceAll(':', '-') + '.txt';
+            now.toLocaleTimeString('de-DE').replaceAll(':', '-') + '.txt';
 
         try {
             await access(dirName);
@@ -21,7 +23,7 @@ const createFileWithMessage = async (message) => {
             console.log(`${dirName} created`);
         }
         const filePath = join(dirName, fileName);
-        await writeFile(filePath, message);
+        await appendFile(filePath, message + '\n');
     } catch (error) {
         console.error(error);
     }
@@ -32,16 +34,16 @@ const deleteFileByName = async (filePath) => {
         await unlink(filePath);
         console.log(`Successfully deleted ${filePath}`);
     } catch (error) {
-        console.error('Something went wrong', error);
+        console.error(' File not found');
     }
 };
 
 const command = process.argv[2];
 const argument = process.argv[3];
 
-if (command === 'create') {
+if (command === 'create' && argument) {
     createFileWithMessage(argument);
-} else if (command === 'delete') {
+} else if (command === 'delete' && argument) {
     deleteFileByName(argument);
 } else {
     console.log('Invalid command or argument');
