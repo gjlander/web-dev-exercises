@@ -68,7 +68,8 @@ if (args.length === 2) {
         return shiftedWordArray.join('');
     });
 
-    return console.log(shiftedPhraseArray.join(' '));
+    console.log(shiftedPhraseArray.join(' '));
+    return;
 }
 
 const decodedPhraseArray = phraseArray.map((word) => {

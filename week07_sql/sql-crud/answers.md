@@ -31,7 +31,7 @@ CREATE TABLE posts (
     content VARCHAR(5100) NOT NULL,
     cover VARCHAR(510) NOT NULL,
     date DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (owner) REFERENCES users(id)
+    FOREIGN KEY (author) REFERENCES users(id)
 );
 ```
 
