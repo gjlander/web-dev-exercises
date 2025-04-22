@@ -8,8 +8,6 @@ const createFileWithMessage = async (message) => {
         const month = now.toLocaleString('default', { month: '2-digit' });
         const day = now.toLocaleString('default', { day: '2-digit' });
 
-        console.log(date);
-
         const dirName = `${year}-${month}-${day}`;
 
         const fileName =
