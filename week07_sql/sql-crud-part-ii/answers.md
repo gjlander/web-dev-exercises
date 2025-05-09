@@ -1,26 +1,3 @@
-# SQL CRUD Solutions
-
-## CREATE users table
-
-```sql
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255),
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-);
-```
-
-## Seed users table
-
-```sql
-INSERT INTO users (name, email, password) VALUES ('Aang Air', 'aang@air.com', 'aangpass');
-
-INSERT INTO users (name, email, password) VALUES ('Katara Water', 'katara@water.com', 'katarapass');
-
-INSERT INTO users (name, email, password) VALUES ('Zuko Fire', 'zuko@fire.com', 'zukopass');
-```
-
 ## CREATE posts table
 
 ```sql
@@ -32,6 +9,7 @@ CREATE TABLE posts (
     cover VARCHAR(510) NOT NULL,
     date DATE DEFAULT CURRENT_DATE,
     FOREIGN KEY (author) REFERENCES users(id)
+    ON DELETE CASCADE
 );
 ```
 
