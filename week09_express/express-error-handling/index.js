@@ -1,18 +1,10 @@
 import express from 'express';
-import { readFile } from 'fs';
-
 import errorHandler from './middleware/errorHandler.js';
-import ErrorResponse from './utils/ErrorResponse.js';
-import asyncHandler from './utils/asyncHandler.js';
 
 const app = express();
 
-app.get('/', (req, res, next) => {
-    Promise.resolve()
-        .then(() => {
-            throw new Error('BROKEN');
-        })
-        .catch(next); // Errors will be passed to Express.
+app.get('/', (req, res) => {
+    throw new Error('Something went wrong', { cause: 400 });
 });
 
 app.get('/error-from-callback', (req, res, next) => {
@@ -23,20 +15,14 @@ app.get('/error-from-callback', (req, res, next) => {
         return res.send(data);
     });
 });
-app.get('/error-from-promise', async (req, res, next) => {
-    try {
-        throw new ErrorResponse('Something went wrong', 400);
-    } catch (err) {
-        next(err);
-    }
+
+app.get('/error-from-sync', (req, res) => {
+    throw new Error('Throwing openly in sync code', { cause: 418 });
 });
 
-app.get(
-    '/error-from-promise-handler',
-    asyncHandler(async (req, res, next) => {
-        throw new ErrorResponse('oopsie poopsie', 400);
-    })
-);
+app.get('/error-from-async', async (req, res) => {
+    throw new Error('Throwing openly in async code', { cause: 418 });
+});
 
 app.use(errorHandler);
 

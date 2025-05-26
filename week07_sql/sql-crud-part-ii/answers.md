@@ -55,3 +55,12 @@ RETURNING *;
 DELETE FROM posts
 WHERE id = 5
 ```
+
+GET `users/:id`
+
+```sql
+SELECT id, name, email FROM users
+JOIN posts
+ON users.id = posts.author
+WHERE id = 1;
+```

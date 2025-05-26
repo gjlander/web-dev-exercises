@@ -37,13 +37,11 @@ const requestHandler = async (req, res) => {
                     JSON.stringify({ msg: 'File created', content: body })
                 );
             });
-
-            return console.log('File created.');
         }
         res.statusCode = 405;
         return res.end(
             JSON.stringify({
-                msg: 'Invalid method. Can only POST on this route.',
+                error: 'Invalid method. Can only POST on this route.',
             })
         );
     }
@@ -55,7 +53,7 @@ const requestHandler = async (req, res) => {
                 res.statusCode = 404;
                 return res.end(
                     JSON.stringify({
-                        msg: `Error 404: File does not exist.`,
+                        error: `Error 404: File does not exist.`,
                     })
                 );
             }
@@ -75,14 +73,14 @@ const requestHandler = async (req, res) => {
         res.statusCode = 405;
         return res.end(
             JSON.stringify({
-                msg: 'Invalid method. Can only DELETE on this route.',
+                msg: 'Invalid method. Can only GET or DELETE on this route.',
             })
         );
     }
     res.statusCode = 404;
     return res.end(
         JSON.stringify({
-            msg: 'Route not found.',
+            error: 'Route not found.',
         })
     );
 };

@@ -1,21 +1,20 @@
 {
-  "name": "express-body-validation",
+  "name": "express-lecture",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "node --env-file=.env --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node -r dotenv/config --watch index.js",
     "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "type": "module",
   "dependencies": {
     "express": "^5.1.0",
-    "pg": "^8.16.0",
-    "sequelize": "^6.37.7",
-    "zod": "^3.25.28"
+    "pg": "^8.16.0"
   },
   "devDependencies": {
     "dotenv": "^16.5.0"

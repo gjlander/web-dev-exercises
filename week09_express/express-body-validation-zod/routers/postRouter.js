@@ -1,6 +1,6 @@
 import { Router } from 'express';
 // import asyncHandler from '../utils/asyncHandler.js';
-import postSchema from '../joi/postSchema.js';
+import postSchema from '../zod/postSchema.js';
 import validateSchema from '../middleware/validateSchema.js';
 
 import {

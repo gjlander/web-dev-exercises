@@ -1,7 +1,13 @@
-const validateSchema = (zodSchema) => (req, res, next) => {
-    zodSchema.parse(req.body);
-    // return error ? next(error) : next();
-    return next();
+import { z } from 'zod/v4';
+
+const validateSchema = zodSchema => (req, res, next) => {
+  const { data, error } = zodSchema.safeParse(req.body);
+  if (error) {
+    next(new Error(z.prettifyError(error), { cause: 400 }));
+  } else {
+    req.sanitizedBody = data;
+    next();
+  }
 };
 
 export default validateSchema;

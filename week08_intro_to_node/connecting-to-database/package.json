@@ -1,10 +1,10 @@
 {
-    "name": "express-error-handling",
+    "name": "node-server-with-pg",
     "version": "1.0.0",
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "dev": "node --watch index.js",
+        "dev": "node -r dotenv/config --watch index.js",
         "start": "node index.js"
     },
     "keywords": [],
@@ -12,6 +12,9 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "express": "^5.0.1"
+        "pg": "^8.15.6"
+    },
+    "devDependencies": {
+        "dotenv": "^16.5.0"
     }
 }

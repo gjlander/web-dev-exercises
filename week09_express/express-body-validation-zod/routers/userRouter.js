@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import validateSchema from '../middleware/validateSchema.js';
-import userSchema from '../joi/userSchema.js';
+import userSchema from '../zod/userSchema.js';
 import {
     createUser,
     deleteUser,

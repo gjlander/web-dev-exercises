@@ -1,5 +1,5 @@
 {
-    "name": "express-error-handling",
+    "name": "node-server-101",
     "version": "1.0.0",
     "main": "index.js",
     "type": "module",
@@ -10,8 +10,5 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "",
-    "dependencies": {
-        "express": "^5.0.1"
-    }
+    "description": ""
 }
