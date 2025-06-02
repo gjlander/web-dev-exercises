@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 // Define an schema. A template for an object
 const userSchema = z.object({
