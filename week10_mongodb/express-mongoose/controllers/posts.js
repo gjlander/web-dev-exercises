@@ -1,71 +1,46 @@
-import asyncHandler from '../utils/asyncHandler.js';
-import ErrorResponse from '../utils/ErrorResponse.js';
+import { isValidObjectId } from 'mongoose';
 import Post from '../models/Post.js';
 
-export const getPosts = asyncHandler(async (req, res) => {
-    const posts = await Post.find().populate('author', 'firstName lastName');
-    res.status(200).json(posts);
-});
+export const getPosts = async (req, res) => {
+  const posts = await Post.find().lean().populate('author', 'firstName lastName');
+  res.status(200).json(posts);
+};
 
-export const createPost = asyncHandler(async (req, res) => {
-    const {
-        body: { title, content, author },
-    } = req;
+export const createPost = async (req, res) => {
+  const { sanitizedBody } = req;
+  const post = await Post.create(sanitizedBody);
+  const postWithAuthor = await post.populate('author', 'firstName lastName');
+  res.status(201).json(postWithAuthor);
+};
 
-    if (!title || !content || !author)
-        throw new ErrorResponse('Please provide all required fields', 400);
+export const getPostById = async (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
+  const post = await Post.findById(id).lean().populate('author', 'firstName lastName');
+  if (!post) throw new Error('Post not found', { cause: 404 });
+  res.status(200).json(post);
+};
 
-    const post = await Post.create({ title, content, author });
+export const updatePost = async (req, res) => {
+  const {
+    sanitizedBody,
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
+  const updatedPost = await Post.findByIdAndUpdate(id, sanitizedBody, { new: true });
+  if (!updatedPost) throw new Error('Post not found', { cause: 404 });
+  const postWithAuthor = await updatedPost.populate('author', 'firstName lastName');
+  res.status(200).json(postWithAuthor);
+};
 
-    const postWithAuthor = await post.populate('author', 'firstName lastName');
-
-    res.status(201).json(postWithAuthor);
-});
-
-export const getPostById = asyncHandler(async (req, res) => {
-    const {
-        params: { id },
-    } = req;
-    const post = await Post.findById(id).populate(
-        'author',
-        'firstName lastName'
-    );
-
-    if (!post) throw new ErrorResponse('Post not found', 404);
-
-    res.status(200).json(post);
-});
-
-export const updatePost = asyncHandler(async (req, res) => {
-    const {
-        body: { title, content, author },
-        params: { id },
-    } = req;
-
-    const updatedPost = await Post.findByIdAndUpdate(
-        id,
-        { title, content, author },
-        { new: true }
-    );
-
-    if (!updatedPost) throw new ErrorResponse('Post not found', 404);
-
-    const postWithAuthor = await updatedPost.populate(
-        'author',
-        'firstName lastName'
-    );
-
-    res.status(200).json(postWithAuthor);
-});
-
-export const deletePost = asyncHandler(async (req, res) => {
-    const {
-        params: { id },
-    } = req;
-
-    const post = await Post.findByIdAndDelete(id);
-
-    if (!post) throw new ErrorResponse('Post not found', 404);
-
-    res.status(200).json({ message: 'Post deleted successfully' });
-});
+export const deletePost = async (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
+  const post = await Post.findByIdAndDelete(id);
+  if (!post) throw new Error('Post not found', { cause: 404 });
+  res.status(200).json({ message: 'Post deleted successfully' });
+};

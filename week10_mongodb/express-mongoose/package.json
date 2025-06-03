@@ -1,5 +1,5 @@
 {
-  "name": "express-mongodb",
+  "name": "express-mongoose",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -12,8 +12,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express": "^4.19.2",
-    "mongoose": "^8.5.1"
+    "express": "^5.1.0",
+    "mongoose": "^8.15.0",
+    "zod": "^3.25.49"
   },
   "devDependencies": {
     "dotenv": "^16.4.5"
