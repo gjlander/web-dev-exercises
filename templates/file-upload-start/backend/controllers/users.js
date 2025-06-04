@@ -25,7 +25,7 @@ export const getUserById = async (req, res) => {
     params: { id }
   } = req;
   if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
-  const user = await User.findById(id).select('+password').lean();
+  const user = await User.findById(id).lean();
   if (!user) throw new Error('User not found', { cause: 404 });
   res.json(user);
 };

@@ -10,7 +10,7 @@ const EditForm = () => {
     firstName: '',
     lastName: '',
     email: '',
-    image: ''
+    image: null
   });
 
   useEffect(() => {
