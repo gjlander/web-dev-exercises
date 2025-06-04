@@ -16,8 +16,9 @@ const getUserById = async id => {
 const updateUser = async ({ id, formData }) => {
   const res = await fetch(`${baseURL}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-type': 'application/json' },
-    body: JSON.stringify(formData)
+    // headers: { 'Content-type': 'application/json' },
+    // body: JSON.stringify(formData)
+    body: formData
   });
   if (!res.ok) throw new Error(`${res.status}. Something went wrong!`);
   const data = await res.json();

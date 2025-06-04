@@ -36,19 +36,25 @@ const EditForm = () => {
 
   const handleChange = e => {
     if (e.target.name === 'image') {
-      setImagePreview(e.target.value);
+      setImagePreview(URL.createObjectURL(e.target.files[0]));
     }
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm(prev =>
+      e.target.type === 'file'
+        ? { ...prev, [e.target.name]: e.target.files[0] }
+        : { ...prev, [e.target.name]: e.target.value }
+    );
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
       setLoading(true);
+
+      const formData = new FormData(e.target);
+
       const { firstName, lastName, email, image } = await updateUser({
         id: '68404137a6fd78485312bc8a',
-        formData: form,
-        isJSON: true
+        formData
       });
 
       setImagePreview(image);
@@ -81,12 +87,12 @@ const EditForm = () => {
           <input value={form.email} onChange={handleChange} type='text' name='email' className='grow' />
         </label>
 
-        <label className='input input-bordered flex items-center gap-2 w-full'>
+        {/* <label className='input input-bordered flex items-center gap-2 w-full'>
           Image:
           <input value={form.image} onChange={handleChange} type='text' name='image' className='grow' />
-        </label>
+        </label> */}
 
-        {/* <input onChange={handleChange} name='image' type='file' className='file-input input-bordered w-full' /> */}
+        <input onChange={handleChange} name='image' type='file' className='file-input input-bordered w-full' />
 
         <button type='submit' className='btn btn-block' disabled={loading}>
           Upload
