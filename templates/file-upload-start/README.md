@@ -45,7 +45,7 @@ Currently this fullstack application allows a user to update their profile, but 
 
 - Sign up for a free account on [Cloudinary](https://cloudinary.com/users/register_free)
 - Create a middleware that implements Cloudinary to process the `req.file` that was added by Multer
-  - Throw an error if now `file` property is found on the request object
+  - Throw an error if no `file` property is found on the request object
 - Add the resulting `secure_url` as an `image` property on the `body`
 
 Your resulting `userRouter` could look something like this in the end
@@ -71,6 +71,6 @@ Once you have verified your endpoint is working as intended with Multer and Clou
   - Set the preview image based on the upload file rather than a string. The [createObjectURL](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static) method may be of interest
   - inside of `setForm` conditionally check if the `e.target.type === 'file'`, and set the `image` to the first file (see the [docs](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#accessing_selected_files) for some help)
 - Update `handleSubmit`
-  - Create a `FormData` object and pass that to `updateUser` instead of the raw state (hint: the [FormData constructor](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData) can take an HTML form element as an argument - the target of a `submit` event is a a form)
+  - Create a `FormData` object and pass that to `updateUser` instead of the raw state (hint: the [FormData constructor](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData) can take an HTML form element as an argument - the target of a `submit` event is a form)
 - update the `updateUser` function
   - since we are sending `FormData` in the body, remove the `JSON` headers, and do not `stringify` the body
