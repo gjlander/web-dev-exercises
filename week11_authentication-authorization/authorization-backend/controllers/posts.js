@@ -34,7 +34,7 @@ export const updatePost = async (req, res) => {
   const postInDatabase = await Post.findById(id);
   if (!postInDatabase) throw new Error(`Post with id of ${id} doesn't exist`, { cause: 404 });
 
-  if (userId !== postInDatabase.author.toString() || userRole !== 'admin') {
+  if (userId !== postInDatabase.author.toString() && userRole !== 'admin') {
     throw new Error('Not authorized', { cause: 403 });
   }
 
@@ -58,7 +58,7 @@ export const deletePost = async (req, res) => {
   const postInDatabase = await Post.findById(id);
   if (!postInDatabase) throw new Error(`Post with id of ${id} doesn't exist`, { cause: 404 });
 
-  if (userId !== postInDatabase.author.toString() || userRole !== 'admin') {
+  if (userId !== postInDatabase.author.toString() && userRole !== 'admin') {
     throw new Error('Not authorized', { cause: 403 });
   }
 

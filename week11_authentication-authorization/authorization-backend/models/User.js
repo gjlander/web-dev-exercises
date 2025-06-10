@@ -7,7 +7,7 @@ const userSchema = new Schema(
     lastName: { type: String, required: [true, 'Lastname is required'] },
     email: { type: String, required: [true, 'Email is required'], unique: true },
     password: { type: String, required: [true, 'Password is required'], select: false },
-    user: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' }
   },
   {
     timestamps: true

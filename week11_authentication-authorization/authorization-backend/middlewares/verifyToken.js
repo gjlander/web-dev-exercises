@@ -24,13 +24,11 @@ const verifyToken = (req, res, next) => {
   }
 
   const { userId, userRole } = jwt.verify(token, process.env.JWT_SECRET);
-  //   console.log(userId);
+  // console.log(userId, userRole);
 
   req.userId = userId;
   req.userRole = userRole;
-  if (req.method === 'POST') {
-    req.body.author = userId;
-  }
+
   next();
 };
 
