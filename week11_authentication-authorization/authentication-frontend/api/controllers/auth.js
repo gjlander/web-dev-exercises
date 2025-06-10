@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 import User from '../models/User.js';
 
 const secret = process.env.JWT_SECRET;
-const tokenOptions = { expiresIn: '7d' };
+const tokenOptions = { expiresIn: '6d' };
 const isProduction = process.env.NODE_ENV === 'production';
 const cookieOptions = {
   httpOnly: true,
@@ -25,7 +25,7 @@ const signUp = async (req, res) => {
 
   const user = await User.create({ ...req.sanitizedBody, password: hashedPassword });
 
-  const payload = { userId: user._id };
+  const payload = { userId: user._id, userRole: user.role || 'user' };
 
   const token = jwt.sign(payload, secret, tokenOptions);
 
@@ -47,7 +47,7 @@ const signIn = async (req, res) => {
 
   if (!passwordMatch) throw new Error('Invalid email or password', { cause: 401 });
 
-  const payload = { userId: user._id };
+  const payload = { userId: user._id, userRole: user.role || 'user' };
 
   const token = jwt.sign(payload, secret, tokenOptions);
 
@@ -69,7 +69,7 @@ const me = async (req, res) => {
 };
 
 const signOut = async (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie('token', cookieOptions);
 
   res.json({ message: 'You have signed out.' });
 };
