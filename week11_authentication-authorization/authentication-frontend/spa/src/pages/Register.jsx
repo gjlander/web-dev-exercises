@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { signup } from '@/data';
+import { useAuth } from '@/context';
 
 const Register = () => {
+  const { isAuthenticated, setCheckSession, setIsAuthenticated } = useAuth();
+
   const [{ firstName, lastName, email, password, confirmPassword }, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -22,14 +25,18 @@ const Register = () => {
         throw new Error('All fields are required');
       if (password !== confirmPassword) throw new Error('Passwords do not match');
       setLoading(true);
-      const newUser = await signup({ firstName, lastName, email, password });
-      console.log(newUser);
+      const message = await signup({ firstName, lastName, email, password });
+      console.log(message);
+      setIsAuthenticated(true);
+      setCheckSession(true);
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  if (isAuthenticated) return <Navigate to='/' />;
 
   return (
     <form className='my-5 md:w-1/2 mx-auto flex flex-col gap-3' onSubmit={handleSubmit}>

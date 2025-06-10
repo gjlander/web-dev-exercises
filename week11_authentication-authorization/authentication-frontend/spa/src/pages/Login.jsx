@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { signin } from '@/data';
+import { useAuth } from '@/context';
 
 const Login = () => {
+  const { isAuthenticated, setCheckSession, setIsAuthenticated } = useAuth();
   const [{ email, password }, setForm] = useState({
     email: '',
     password: ''
@@ -19,12 +21,16 @@ const Login = () => {
       setLoading(true);
       const message = await signin({ email, password });
       console.log(message);
+      setIsAuthenticated(true);
+      setCheckSession(true);
     } catch (error) {
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  if (isAuthenticated) return <Navigate to='/' />;
 
   return (
     <form className='my-5 md:w-1/2 mx-auto flex flex-col gap-3' onSubmit={handleSubmit}>
