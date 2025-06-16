@@ -1,11 +1,24 @@
 import { useState, useRef, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import './index.css';
+import { getChatHistory } from './data/gemini';
 import Form from './components/Form';
 import Chat from './components/Chat';
 function App() {
   const chatRef = useRef();
   const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState(localStorage.getItem('chatId'));
+
+  useEffect(() => {
+    const getAndSetChatHistory = async () => {
+      const { history } = await getChatHistory(chatId);
+      const historyWithIds = history.map(msg => ({ ...msg, id: crypto.randomUUID() }));
+      // console.log(historyWithIds);
+      setMessages(historyWithIds);
+    };
+
+    chatId && getAndSetChatHistory();
+  }, []);
 
   useEffect(() => {
     chatRef.current?.lastElementChild?.scrollIntoView({
@@ -16,7 +29,7 @@ function App() {
   return (
     <div className='h-screen container mx-auto p-5 flex flex-col justify-between gap-5'>
       <Chat chatRef={chatRef} messages={messages} />
-      <Form chatRef={chatRef} messages={messages} setMessages={setMessages} />
+      <Form chatRef={chatRef} setMessages={setMessages} setChatId={setChatId} />
       <ToastContainer autoClose={1500} theme='colored' />
     </div>
   );

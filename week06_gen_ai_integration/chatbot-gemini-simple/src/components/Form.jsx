@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { createChat } from '../data/gemini';
 
-const Form = ({ setMessages, messages }) => {
+const Form = ({ setMessages, setChatId }) => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const handleChange = e => setPrompt(e.target.value);
   const handleSubmit = async e => {
     try {
-      // Prevent the form from submitting
       e.preventDefault();
       // If the prompt value is empty, alert the user
       if (!prompt) throw new Error('Please enter a prompt');
-      console.log('messages count: ', messages.length);
-      if (messages.length > 9) throw new Error('Message limit reached');
 
       // Disable the submit button
       setLoading(true);
@@ -23,27 +21,16 @@ const Form = ({ setMessages, messages }) => {
       };
       setMessages(prev => [...prev, userMsg]);
 
-      const response = await fetch('http://localhost:5050/chat/simple', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: prompt })
-      });
-      if (!response.ok) {
-        // If the response is not ok, throw an error by parsing the JSON response
-        const { error } = await response.json();
-        throw new Error(error);
-      }
-
-      const { aiResponse } = await response.json();
+      const { aiResponse, chatId } = await createChat(prompt);
       const asstMsg = {
         id: crypto.randomUUID(),
-        parts: [{ text: prompt }],
+        parts: [{ text: aiResponse }],
         role: 'model'
       };
       setPrompt('');
       setMessages(prev => [...prev, asstMsg]);
+      localStorage.setItem('chatId', chatId);
+      setChatId(chatId);
     } catch (error) {
       toast.error(error.message);
     } finally {

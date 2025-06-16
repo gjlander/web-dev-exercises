@@ -1,4 +1,7 @@
-const ChatBubble = ({ content, role }) => {
+const ChatBubble = ({ message }) => {
+  const { role, parts } = message;
+  let content = '';
+  parts?.forEach(part => (content += part.text));
   return (
     <div className={`chat ${role === 'model' ? 'chat-start' : 'chat-end'}`}>
       <div className='chat-image avatar'>
