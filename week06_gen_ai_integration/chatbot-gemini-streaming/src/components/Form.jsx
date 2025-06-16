@@ -68,7 +68,7 @@ const Form = ({ setMessages, chatId, setChatId }) => {
             const jsonStr = oneLine.replace('data: json: ', '');
             const data = JSON.parse(jsonStr);
             // console.log('chatId:', chatId);
-            setChatId(chatId);
+            setChatId(data.chatId);
             localStorage.setItem('chatId', data.chatId);
           } else {
             const text = oneLine.replace('data: ', '');
