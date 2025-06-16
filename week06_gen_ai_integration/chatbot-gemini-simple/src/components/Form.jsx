@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { createChat } from '../data/gemini';
 
-const Form = ({ setMessages, setChatId }) => {
+const Form = ({ setMessages, chatId, setChatId }) => {
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
   const handleChange = e => setPrompt(e.target.value);
@@ -21,15 +21,15 @@ const Form = ({ setMessages, setChatId }) => {
       };
       setMessages(prev => [...prev, userMsg]);
 
-      const { aiResponse, chatId } = await createChat(prompt);
+      const response = await createChat({ message: prompt, chatId });
       const asstMsg = {
         id: crypto.randomUUID(),
-        parts: [{ text: aiResponse }],
+        parts: [{ text: response.aiResponse }],
         role: 'model'
       };
       setPrompt('');
       setMessages(prev => [...prev, asstMsg]);
-      localStorage.setItem('chatId', chatId);
+      localStorage.setItem('chatId', response.chatId);
       setChatId(chatId);
     } catch (error) {
       toast.error(error.message);

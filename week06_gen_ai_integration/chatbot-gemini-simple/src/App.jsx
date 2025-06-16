@@ -29,7 +29,7 @@ function App() {
   return (
     <div className='h-screen container mx-auto p-5 flex flex-col justify-between gap-5'>
       <Chat chatRef={chatRef} messages={messages} />
-      <Form chatRef={chatRef} setMessages={setMessages} setChatId={setChatId} />
+      <Form chatRef={chatRef} setMessages={setMessages} chatId={chatId} setChatId={setChatId} />
       <ToastContainer autoClose={1500} theme='colored' />
     </div>
   );

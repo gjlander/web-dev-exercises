@@ -1,10 +1,14 @@
-const createChat = async prompt => {
-  const response = await fetch('http://localhost:5050/chat', {
+const API_URL = import.meta.env.VITE_API_URL;
+if (!API_URL) throw new Error('API URL is required, are you missing a .env file?');
+const baseURL = `${API_URL}/chat`;
+
+const createChat = async body => {
+  const response = await fetch(baseURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ message: prompt })
+    body: JSON.stringify(body)
   });
   if (!response.ok) {
     // If the response is not ok, throw an error by parsing the JSON response
@@ -18,7 +22,7 @@ const createChat = async prompt => {
 };
 
 const getChatHistory = async chatId => {
-  const response = await fetch(`http://localhost:5050/chat/${chatId}`);
+  const response = await fetch(`${baseURL}/${chatId}`);
   if (!response.ok) {
     // If the response is not ok, throw an error by parsing the JSON response
     const { error } = await response.json();
