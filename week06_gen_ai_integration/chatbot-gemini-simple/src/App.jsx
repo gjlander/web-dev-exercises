@@ -12,9 +12,9 @@ function App() {
   useEffect(() => {
     const getAndSetChatHistory = async () => {
       const { history } = await getChatHistory(chatId);
-      const historyWithIds = history.map(msg => ({ ...msg, id: crypto.randomUUID() }));
+
       // console.log(historyWithIds);
-      setMessages(historyWithIds);
+      setMessages(history);
     };
 
     chatId && getAndSetChatHistory();

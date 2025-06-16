@@ -15,7 +15,7 @@ const Form = ({ setMessages, chatId, setChatId }) => {
       // Disable the submit button
       setLoading(true);
       const userMsg = {
-        id: crypto.randomUUID(),
+        _id: crypto.randomUUID(),
         role: 'user',
         parts: [{ text: prompt }]
       };
@@ -23,7 +23,7 @@ const Form = ({ setMessages, chatId, setChatId }) => {
 
       const response = await createChat({ message: prompt, chatId });
       const asstMsg = {
-        id: crypto.randomUUID(),
+        _id: crypto.randomUUID(),
         parts: [{ text: response.aiResponse }],
         role: 'model'
       };
