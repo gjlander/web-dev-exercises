@@ -20,19 +20,19 @@ const Form = ({ setMessages, chatId, setChatId }) => {
       setLoading(true);
 
       const userMsg = {
-        id: crypto.randomUUID(),
+        _id: crypto.randomUUID(),
         role: 'user',
         parts: [{ text: prompt }]
       };
       setMessages(prev => [...prev, userMsg]);
 
-      if (isStream) {
-        const asstMsg = {
-          id: crypto.randomUUID(),
-          parts: [{ text: '' }],
-          role: 'model'
-        };
+      const asstMsg = {
+        _id: crypto.randomUUID(),
+        parts: [{ text: '' }],
+        role: 'model'
+      };
 
+      if (isStream) {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/chat`, {
           method: 'POST',
           body: JSON.stringify({ message: prompt, stream: true, chatId }),
@@ -50,60 +50,58 @@ const Form = ({ setMessages, chatId, setChatId }) => {
         const decoder = new TextDecoder();
         let responseText = '';
 
-        // const responseId = crypto.randomUUID();
-        // setMessages(m => [...m, { id: responseId, role: 'model', text: responseText }]);
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
           const chunk = decoder.decode(value, { stream: true });
 
-          // console.log(chunk);
+          const lines = chunk.split('\n');
+          // console.log(lines);
 
-          const oneLine = chunk.replaceAll('\n', '');
-          // console.log('oneLine: ', oneLine);
-          // responseText += chunk;
-          if (oneLine.startsWith('data: json: ')) {
-            const jsonStr = oneLine.replace('data: json: ', '');
-            const data = JSON.parse(jsonStr);
-            // console.log('chatId:', chatId);
-            setChatId(data.chatId);
-            localStorage.setItem('chatId', data.chatId);
-          } else {
-            const text = oneLine.replace('data: ', '');
-            console.log('text: ', text);
-            responseText += text;
-            setMessages(prev => {
-              const msgExists = prev.some(msg => msg.id === asstMsg.id);
-              // console.log('prev', prev);
+          lines.forEach(line => {
+            if (line.startsWith('data: ')) {
+              const jsonStr = line.replace('data: ', '');
+              // console.log(jsonStr);
+              const data = JSON.parse(jsonStr);
+              // console.log(data);
 
-              if (!msgExists) {
-                asstMsg.parts[0] = { text: responseText };
-                return [...prev, asstMsg];
-              } else {
-                return prev.map(msg => {
-                  if (msg.id === asstMsg.id) {
-                    console.log('parts text: ', msg.parts[0].text);
-                    msg.parts[0].text = responseText;
+              if (data.chatId) {
+                localStorage.setItem('chatId', data.chatId);
+                setChatId(data.chatId);
+              } else if (data.text) {
+                const { text } = data;
+                console.log(text);
+                responseText += text;
+                setMessages(prev => {
+                  const msgExists = prev.some(msg => msg._id === asstMsg._id);
+                  // console.log('prev', prev);
+
+                  if (!msgExists) {
+                    asstMsg.parts[0] = { text: responseText };
+                    return [...prev, asstMsg];
+                  } else {
+                    return prev.map(msg => {
+                      if (msg._id === asstMsg._id) {
+                        console.log('parts text: ', msg.parts[0].text);
+                        msg.parts[0].text = responseText;
+                      }
+                      return msg;
+                    });
                   }
-                  return msg;
                 });
               }
-            });
-          }
-          // console.log(chunk);
-
-          // setMessages(m => m.map(msg => (msg.id === responseId ? { ...msg, text: responseText } : msg)));
+            }
+          });
         }
-        // console.log(responseText);
       } else {
         const response = await createChat({ message: prompt, chatId, stream: isStream });
-        const asstMsg = {
-          id: crypto.randomUUID(),
-          parts: [{ text: response.aiResponse }],
-          role: 'model'
-        };
+        asstMsg.parts[0].text = response.aiResponse;
+        // const asstMsg = {
+        //   _id: crypto.randomUUID(),
+        //   parts: [{ text: response.aiResponse }],
+        //   role: 'model'
+        // };
         setMessages(prev => [...prev, asstMsg]);
         localStorage.setItem('chatId', response.chatId);
         setChatId(chatId);
