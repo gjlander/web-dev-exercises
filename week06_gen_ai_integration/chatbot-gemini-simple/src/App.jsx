@@ -11,10 +11,12 @@ function App() {
 
   useEffect(() => {
     const getAndSetChatHistory = async () => {
-      const { history } = await getChatHistory(chatId);
-
-      // console.log(historyWithIds);
-      setMessages(history);
+      try {
+        const { history } = await getChatHistory(chatId);
+        setMessages(history);
+      } catch (error) {
+        localStorage.removeItem('chatId');
+      }
     };
 
     chatId && getAndSetChatHistory();
