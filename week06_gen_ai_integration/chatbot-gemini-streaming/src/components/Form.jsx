@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { createChat } from '../data/gemini';
+import { createChat, fetchChat } from '../data/gemini';
 
 const Form = ({ setMessages, chatId, setChatId }) => {
   const [isStream, setIsStream] = useState(false);
@@ -33,18 +33,7 @@ const Form = ({ setMessages, chatId, setChatId }) => {
       };
 
       if (isStream) {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/chat`, {
-          method: 'POST',
-          body: JSON.stringify({ message: prompt, stream: true, chatId }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if (!res.ok) {
-          // If the response is not ok, throw an error by parsing the JSON response
-          const { error } = await res.json();
-          throw new Error(error);
-        }
+        const res = await fetchChat({ message: prompt, stream: isStream, chatId });
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
@@ -71,19 +60,18 @@ const Form = ({ setMessages, chatId, setChatId }) => {
                 setChatId(data.chatId);
               } else if (data.text) {
                 const { text } = data;
-                console.log(text);
+                // console.log(text);
                 responseText += text;
                 setMessages(prev => {
                   const msgExists = prev.some(msg => msg._id === asstMsg._id);
                   // console.log('prev', prev);
-
                   if (!msgExists) {
                     asstMsg.parts[0] = { text: responseText };
                     return [...prev, asstMsg];
                   } else {
                     return prev.map(msg => {
                       if (msg._id === asstMsg._id) {
-                        console.log('parts text: ', msg.parts[0].text);
+                        // console.log('parts text: ', msg.parts[0].text);
                         msg.parts[0].text = responseText;
                       }
                       return msg;
@@ -97,11 +85,6 @@ const Form = ({ setMessages, chatId, setChatId }) => {
       } else {
         const response = await createChat({ message: prompt, chatId, stream: isStream });
         asstMsg.parts[0].text = response.aiResponse;
-        // const asstMsg = {
-        //   _id: crypto.randomUUID(),
-        //   parts: [{ text: response.aiResponse }],
-        //   role: 'model'
-        // };
         setMessages(prev => [...prev, asstMsg]);
         localStorage.setItem('chatId', response.chatId);
         setChatId(chatId);

@@ -31,7 +31,7 @@ const ChatWindow = () => {
   }, [messages]);
 
   return (
-    <div className='max-h-[75vh] w-full max-w-[600px] flex flex-col bg-slate-600'>
+    <div className='max-h-[75vh] w-full max-w-[600px] flex flex-col bg-slate-600 rounded-lg'>
       <Chat chatRef={chatRef} messages={messages} />
       <Form chatRef={chatRef} setMessages={setMessages} chatId={chatId} setChatId={setChatId} />
       <ToastContainer autoClose={1500} theme='colored' />

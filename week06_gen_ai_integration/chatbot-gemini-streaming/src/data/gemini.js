@@ -2,7 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 if (!API_URL) throw new Error('API URL is required, are you missing a .env file?');
 const baseURL = `${API_URL}/chat`;
 
-const createChat = async body => {
+const fetchChat = async body => {
   const response = await fetch(baseURL, {
     method: 'POST',
     headers: {
@@ -15,6 +15,12 @@ const createChat = async body => {
     const { error } = await response.json();
     throw new Error(error || 'Something went wrong');
   }
+
+  return response;
+};
+
+const createChat = async body => {
+  const response = await fetchChat(body);
 
   const data = await response.json();
 
@@ -34,4 +40,4 @@ const getChatHistory = async chatId => {
   return data;
 };
 
-export { createChat, getChatHistory };
+export { createChat, getChatHistory, fetchChat };
