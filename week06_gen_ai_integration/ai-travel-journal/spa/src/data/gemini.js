@@ -19,8 +19,34 @@ const fetchChat = async body => {
   return response;
 };
 
+const fetchPersonalChat = async body => {
+  const response = await fetch(`${baseURL}/personal`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body),
+    credentials: 'include'
+  });
+  if (!response.ok) {
+    // If the response is not ok, throw an error by parsing the JSON response
+    const { error } = await response.json();
+    throw new Error(error || 'Something went wrong');
+  }
+
+  return response;
+};
+
 const createChat = async body => {
   const response = await fetchChat(body);
+
+  const data = await response.json();
+
+  return data;
+};
+
+const createPersonalChat = async body => {
+  const response = await fetchPersonalChat(body);
 
   const data = await response.json();
 
@@ -40,4 +66,4 @@ const getChatHistory = async chatId => {
   return data;
 };
 
-export { createChat, getChatHistory, fetchChat };
+export { createChat, getChatHistory, fetchChat, fetchPersonalChat, createPersonalChat };

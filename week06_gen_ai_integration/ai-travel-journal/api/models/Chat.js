@@ -13,6 +13,9 @@ const chatSchema = new Schema(
     history: {
       type: [messageSchema],
       default: []
+    },
+    userId: {
+      type: Schema.Types.ObjectId
     }
   },
   { timestamps: true }

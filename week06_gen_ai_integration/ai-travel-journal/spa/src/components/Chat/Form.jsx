@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { createChat, fetchChat } from '@/data';
+import { createChat, fetchChat, createPersonalChat, fetchPersonalChat } from '@/data';
+import { useAuth } from '@/context';
 
 const Form = ({ setMessages, chatId, setChatId }) => {
+  const { isAuthenticated } = useAuth();
   const [isStream, setIsStream] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [loading, setLoading] = useState(false);
@@ -33,7 +35,9 @@ const Form = ({ setMessages, chatId, setChatId }) => {
       };
 
       if (isStream) {
-        const res = await fetchChat({ message: prompt, stream: isStream, chatId });
+        const res = isAuthenticated
+          ? await fetchPersonalChat({ message: prompt, stream: isStream, chatId })
+          : await fetchChat({ message: prompt, stream: isStream, chatId });
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
@@ -83,7 +87,9 @@ const Form = ({ setMessages, chatId, setChatId }) => {
           });
         }
       } else {
-        const response = await createChat({ message: prompt, chatId, stream: isStream });
+        const response = isAuthenticated
+          ? await createPersonalChat({ message: prompt, chatId, stream: isStream })
+          : await createChat({ message: prompt, chatId, stream: isStream });
         asstMsg.parts[0].text = response.aiResponse;
         setMessages(prev => [...prev, asstMsg]);
         localStorage.setItem('chatId', response.chatId);
