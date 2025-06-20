@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { createChat, fetchChat } from '../data/gemini';
+import { addOrUpdateMsg } from '../utils/msgUtils';
 
 const Form = ({ setMessages, chatId, setChatId }) => {
   const [isStream, setIsStream] = useState(false);
@@ -37,7 +38,6 @@ const Form = ({ setMessages, chatId, setChatId }) => {
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
-        let responseText = '';
 
         while (true) {
           const { done, value } = await reader.read();
@@ -61,23 +61,7 @@ const Form = ({ setMessages, chatId, setChatId }) => {
               } else if (data.text) {
                 const { text } = data;
                 // console.log(text);
-                responseText += text;
-                setMessages(prev => {
-                  const msgExists = prev.some(msg => msg._id === asstMsg._id);
-                  // console.log('prev', prev);
-                  if (!msgExists) {
-                    asstMsg.parts[0] = { text: responseText };
-                    return [...prev, asstMsg];
-                  } else {
-                    return prev.map(msg => {
-                      if (msg._id === asstMsg._id) {
-                        // console.log('parts text: ', msg.parts[0].text);
-                        msg.parts[0].text = responseText;
-                      }
-                      return msg;
-                    });
-                  }
-                });
+                setMessages(prev => addOrUpdateMsg(prev, asstMsg, text));
               }
             }
           });
