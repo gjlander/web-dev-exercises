@@ -18,18 +18,17 @@ const PostCard = ({ _id, content, image, title, author, setPosts }) => {
         </button>
         {user?._id === author && (
           <div className='card-actions justify-center gap-6'>
-            <button onClick={() => document.getElementById('edit-modal').showModal()} className='btn btn-success'>
+            <button
+              onClick={() => document.getElementById(`edit-modal-${_id}`).showModal()}
+              className='btn btn-success'
+            >
               Edit
             </button>
-            <EditModal
-              _id={_id}
-              image={image}
-              title={title}
-              content={content}
-              author={author._id}
-              setPosts={setPosts}
-            />
-            <button onClick={() => document.getElementById('delete-modal').showModal()} className='btn btn-error'>
+            <EditModal _id={_id} image={image} title={title} content={content} author={author} setPosts={setPosts} />
+            <button
+              onClick={() => document.getElementById(`delete-modal-${_id}`).showModal()}
+              className='btn btn-error'
+            >
               Delete
             </button>
             <DeleteModal _id={_id} setPosts={setPosts} />

@@ -95,7 +95,54 @@ Now that we have a specific use case for our AI assistant, we want the system in
 For help with how to achieve this checkout the official guides on:
 
 - [Prompt Design](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/introduction-prompt-design)
-  - [Context] (https://cloud.google.com/vertex-ai/generative-ai/docs/chat/chat-prompts#context)
+  - [Context](https://cloud.google.com/vertex-ai/generative-ai/docs/chat/chat-prompts#context)
 - [System Instructions](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompts/system-instruction-introduction)
 
-Test you AI assistant by trying to ask it off-topic questions, or get it to ignore pervious instructions. If you're able to jailbreak it (get it to perform outside of the system instructions), adjust instructions until it behaves as desired
+Test your AI assistant by trying to ask it off-topic questions, or get it to ignore pervious instructions. If you're able to jailbreak it (get it to perform outside of the system instructions), adjust instructions until it behaves as desired
+
+### Creating a personalized chat
+
+Now that the AI is behaving as a travel assistant for logged out users, we want logged in users to get more personalized results based on their posts. For this, we will need to find all posts from the logged in user, and add them as context to the end of the system instructions
+
+- inside of `controllers/chats.js` make a new function called `createPersonalChat`, and copy the contents of `createChat` to use as a starting point. then export the function
+- import this new controller in `routes/chatRouter.js` and create a new endpoint that is:
+  - a `POST` requests
+  - to `/chat/personal`
+  - uses `validateZod` middleware to validate the request body
+- test the endpoint to verify it behaves exactly like the `POST` `/chat` endpoint
+
+Since this chat will be personalized for logged in users, we also want to add the `verifyToken` middleware. Import it, and add it to the endpoint. Your endpoint should look something like this:
+
+```js
+chatRouter.post('/personal', verifyToken, validateZod(userMessageSchema), createPersonalChat);
+```
+
+- back in `/controllers/chats.js` destructure the `userId` from the request
+- import the `Post` model, and use it to query all Posts from this user. You can use the `.select()` method to only include the `title` and `content` of each post, since this is what Gemini needs for the personalized results. Since this is a read-only query, you can also use the `lean()` method
+
+- inside of `at.chats.create()`, add the stringified `userPosts` to the end of the `systemInstruction`, to provide it as context
+  - since `systemInstruction` is just a string, you can add to it by concatenating or using a template literal
+
+Test your endpoint. It should now only work for logged in users, and use their posts to recommend their next travel destinations! Make sure the logged in user has at least a couple of posts (you can use Gemini to write these for you 😜). Check that the AI is behaving as intended, and tweak your system instruction if needed to improve the behaviour.
+
+### Personalizing results in our SPA
+
+Now that our endpoint is set up and working, we need to create a function in our SPA to hit that endpoint. This means we'll need a new
+
+- `fetchPersonalChat` function for use with streaming, and to be called in...
+- `createPersonalChat`, for use when streaming is not selected
+
+- Create these two new functions (they will look very similar to `fetchChat` and `createChat`)
+
+  - make sure to `fetch` to the `chat/personal` endpoint
+  - make sure to include credentials now that we are working with cookies
+  - import these functions into `index.js` and re-export them
+
+- in `/components/Chat/Form.jsx` import these 2 new functions, and also import `useAuth`
+
+- destructure `isAuthenticated` from `useAuth()`
+
+- inside your submit handler, conditionally fetch `chat` or `personalChat` based on if `isAuthenticated` is `true` or `false` for both streaming and non-streaming options
+  - hint: you can set the value of a variable conditionally with a ternary operator like so: `const res = isAuthenticated ? function1() : function2()`
+
+As always, test your application to verify everything is working. Users should be able to continue a chat they started logged out after logging in. Once any bugs or syntax errors are taken care of, you have an AI assistant that gives personalized results!
