@@ -1,5 +1,5 @@
 import { Instructions, SearchForm, SearchResults } from '../components';
-import { searchProducts } from '../api/index.js';
+import { searchProducts } from '../api';
 
 const productsPromise = searchProducts();
 

@@ -1,3 +1,5 @@
+// import { use, useActionState } from 'react';
+
 const SearchForm = () => {
   return (
     <form className='w-full max-w-4xl'>
@@ -10,29 +12,15 @@ const SearchForm = () => {
           </div>
           <div className='flex flex-col'>
             <label className='label text-sm font-medium'>Min Price</label>
-            <input
-              type='number'
-              className='input input-bordered w-full'
-              name='minPrice'
-              placeholder='Min'
-            />
+            <input type='number' className='input input-bordered w-full' name='minPrice' placeholder='Min' />
           </div>
           <div className='flex flex-col'>
             <label className='label text-sm font-medium'>Max Price</label>
-            <input
-              type='number'
-              className='input input-bordered w-full'
-              name='maxPrice'
-              placeholder='Max'
-            />
+            <input type='number' className='input input-bordered w-full' name='maxPrice' placeholder='Max' />
           </div>
           <div className='flex flex-col'>
             <label className='label text-sm font-medium'>Description</label>
-            <input
-              className='input input-bordered w-full'
-              name='query'
-              placeholder='Search keyword'
-            />
+            <input className='input input-bordered w-full' name='query' placeholder='Search keyword' />
           </div>
           <div className='flex justify-end md:items-end'>
             <button type='submit' className='btn btn-neutral w-full md:w-auto mt-1 md:mt-0'>

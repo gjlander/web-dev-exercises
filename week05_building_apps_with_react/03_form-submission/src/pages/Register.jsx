@@ -1,16 +1,26 @@
 import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback, Instructions } from '../components';
+import { registerNewsletter } from '../api';
+import { ErrorFallback, Instructions, SubmitBtn } from '../components';
 
 const Register = () => {
+  const registerAction = async formData => {
+    try {
+      const email = formData.get('email');
+      const message = await registerNewsletter(email);
+      console.log(message);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div className='flex flex-col items-center'>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <form>
+        <form action={registerAction}>
           <fieldset className='fieldset bg-base-200 border-base-300 rounded-box w-lg border p-4'>
             <legend className='fieldset-legend'>Register to our newsletter</legend>
             <label className='label'>Email</label>
             <input className='input w-full' name='email' placeholder='Email' />
-            <button className='btn btn-neutral mt-4'>Register!</button>
+            <SubmitBtn>Register</SubmitBtn>
           </fieldset>
         </form>
       </ErrorBoundary>
