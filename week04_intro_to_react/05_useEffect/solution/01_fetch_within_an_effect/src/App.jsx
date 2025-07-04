@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './index.css';
+import { getPeople } from './data/starWars';
 
 const App = () => {
   const [people, setPeople] = useState([]);
@@ -16,11 +17,7 @@ const App = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(url, {
-          signal: abortController.signal
-        });
-        if (!res.ok) throw new Error('Failed to fetch data');
-        const data = await res.json();
+        const data = await getPeople(url, abortController);
 
         setPeople(data.results);
         setNextUrl(data.next);
