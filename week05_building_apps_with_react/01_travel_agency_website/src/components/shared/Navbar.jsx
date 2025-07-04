@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router';
 
 const Navbar = () => {
+  const showActive = ({ isActive }) => (isActive ? 'menu-active' : '');
   return (
     <div className='navbar bg-base-200 shadow-sm'>
       <div className='flex-1'>
@@ -11,22 +12,22 @@ const Navbar = () => {
       <div className='navbar-end'>
         <ul className='menu menu-horizontal items-baseline gap-2'>
           <li>
-            <NavLink to='/' className={({ isActive }) => (isActive ? 'menu-active' : '')}>
+            <NavLink to='/' className={showActive}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to='/about' className={({ isActive }) => (isActive ? 'menu-active' : '')}>
+            <NavLink to='/about' className={showActive}>
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to='/destinations' className={({ isActive }) => (isActive ? 'menu-active' : '')}>
+            <NavLink to='/destinations' className={showActive}>
               Destinations
             </NavLink>
           </li>
           <li>
-            <NavLink to='/contact' className={({ isActive }) => (isActive ? 'menu-active' : '')}>
+            <NavLink to='/contact' className={showActive}>
               Contact
             </NavLink>
           </li>
