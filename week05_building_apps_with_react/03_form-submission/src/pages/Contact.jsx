@@ -9,12 +9,8 @@ const Contact = () => {
     const email = formData.get('email');
     const message = formData.get('message');
 
-    try {
-      const response = await sendContactForm({ firstName, lastName, email, message });
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
+    const response = await sendContactForm({ firstName, lastName, email, message });
+    console.log(response);
   };
   return (
     <div className='flex flex-col items-center'>

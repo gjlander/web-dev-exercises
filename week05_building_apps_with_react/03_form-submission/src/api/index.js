@@ -54,8 +54,7 @@ export const searchProducts = async ({ category, minPrice, maxPrice, query } = {
     const matchesCategory = !data.category || product.category === data.category;
     const matchesMinPrice = data.minPrice === undefined || product.price >= data.minPrice;
     const matchesMaxPrice = data.maxPrice === undefined || product.price <= data.maxPrice;
-    const matchesQuery =
-      !data.query || product.title.toLowerCase().includes(data.query.toLowerCase());
+    const matchesQuery = !data.query || product.title.toLowerCase().includes(data.query.toLowerCase());
 
     return matchesCategory && matchesMinPrice && matchesMaxPrice && matchesQuery;
   });
