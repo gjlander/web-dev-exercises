@@ -4,13 +4,9 @@ import { ErrorFallback, Instructions, SubmitBtn } from '../components';
 
 const Register = () => {
   const registerAction = async formData => {
-    try {
-      const email = formData.get('email');
-      const message = await registerNewsletter(email);
-      console.log(message);
-    } catch (error) {
-      console.error(error);
-    }
+    const email = formData.get('email');
+    const message = await registerNewsletter(email);
+    console.log(message);
   };
   return (
     <div className='flex flex-col items-center'>
