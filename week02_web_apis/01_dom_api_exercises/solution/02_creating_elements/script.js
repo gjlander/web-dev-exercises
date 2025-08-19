@@ -9,28 +9,36 @@ header.appendChild(nav);
 
 // Inside the nav, create an a element with the class logo and the text "Coffee Shop".
 const logo = document.createElement('a');
-logo.classList.add('logo');
+
+// className for initial classes upon creation
+logo.className = 'logo';
+
+// classList.add() for adding classes to an existing element
+// logo.classList.add('logo');
+
 logo.textContent = 'Coffee Shop';
 nav.appendChild(logo);
 
 // Create a ul element with the class nav-list. Inside the ul, create four li elements with the class nav-item,
 // each containing an a element with text "Home", "Menu", "About", and "Contact".
 const navList = document.createElement('ul');
-navList.classList.add('nav-list');
+navList.className = 'nav-list';
 nav.appendChild(navList);
 
 const navArray = ['Home', 'Menu', 'About', 'Contact'];
 
-navArray.forEach((navText) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    li.style.marginLeft = '1.5rem';
-    a.textContent = navText;
-    a.style.textDecoration = 'none';
-    a.style.color = '#333';
-    a.style.fontWeight = 'bold';
-    li.appendChild(a);
-    navList.appendChild(li);
+navArray.forEach(navText => {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  // .nav-item: margin-left: 1.5rem.
+  li.style.marginLeft = '1.5rem';
+  a.textContent = navText;
+  // .nav-item a: text-decoration: none, color: #333, font-weight: bold.
+  a.style.textDecoration = 'none';
+  a.style.color = '#333';
+  a.style.fontWeight = 'bold';
+  li.appendChild(a);
+  navList.appendChild(li);
 });
 
 // Create the Hero Section:
@@ -41,7 +49,7 @@ body.appendChild(hero);
 
 // Inside the hero, create a div with the class hero-content.
 const heroContent = document.createElement('div');
-heroContent.classList.add('hero-content');
+heroContent.className = 'hero-content';
 hero.appendChild(heroContent);
 
 // Inside the div, create an h1 element with the text "Welcome to Our Coffee Shop".
@@ -93,24 +101,10 @@ logo.style.textDecoration = 'none';
 navList.style.display = 'flex';
 navList.style.listStyle = 'none';
 
-// .nav-item: margin-left: 1.5rem.
-const navItems = document.querySelectorAll('.nav-item');
-for (const item of navItems) {
-    item.style.marginLeft = '1.5rem';
-}
-
-// .nav-item a: text-decoration: none, color: #333, font-weight: bold.
-const navAs = document.querySelectorAll('.nav-item');
-for (const a of navItems) {
-    a.style.textDecoration = 'none';
-    a.style.color = '#333';
-    a.style.fontWeight = 'bold';
-}
-
 // .hero: height: 560px, background: url("https://images.pexels.com/photos/2907301/pexels-photo-2907301.jpeg?auto=compress&cs=tinysrgb&w=640&h=853&dpr=1") no-repeat center center/cover, color: #fff.
 hero.style.height = '560px';
 hero.style.background =
-    'url("https://images.pexels.com/photos/2907301/pexels-photo-2907301.jpeg?auto=compress&cs=tinysrgb&w=640&h=853&dpr=1") no-repeat center center/cover';
+  'url("https://images.pexels.com/photos/2907301/pexels-photo-2907301.jpeg?auto=compress&cs=tinysrgb&w=640&h=853&dpr=1") no-repeat center center/cover';
 hero.style.color = '#fff';
 
 // .hero-content: max-width: 600px, height: 100%, display: flex, flex-direction: column, justify-content: space-around, align-items: center, text-align: center.
@@ -138,10 +132,10 @@ btn.style.borderRadius = '5px';
 btn.style.transition = 'background-color 0.3s ease';
 // .btn:hover: background-color: #555. (tip: you can set a mouseover and a mouseout event for this)
 btn.addEventListener('mouseover', () => {
-    btn.style.backgroundColor = '#555';
+  btn.style.backgroundColor = '#555';
 });
 btn.addEventListener('mouseout', () => {
-    btn.style.backgroundColor = '#333';
+  btn.style.backgroundColor = '#333';
 });
 // .footer: background-color: #333, color: #fff, text-align: center, padding: 1rem 0, margin-top: auto.
 footer.style.backgroundColor = '#333';

@@ -3,6 +3,14 @@ import { renderProdCard } from './modules/ui.js';
 
 const productsContainer = document.querySelector('#products-container');
 
-const allProducts = await fetchProducts();
+const renderProducts = async () => {
+  try {
+    const allProducts = await fetchProducts();
 
-allProducts?.forEach((prod) => renderProdCard(prod, productsContainer));
+    allProducts?.forEach(prod => renderProdCard(prod, productsContainer));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+renderProducts();
