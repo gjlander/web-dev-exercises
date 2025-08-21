@@ -4,7 +4,10 @@ import '#db';
 import { Product } from '#models';
 
 const program = new Command();
-program.name('ecommerce-cli').description('Simple product CRUD CLI').version('1.0.0');
+program
+	.name('ecommerce-cli')
+	.description('Simple product CRUD CLI')
+	.version('1.0.0');
 
 // CREATE
 program
@@ -25,7 +28,12 @@ program
 		const price = +priceStr;
 		const tags = tagsStr.split(',');
 
-		const newProduct = await Product.create<ProductType>({ name, stock, price, tags });
+		const newProduct = await Product.create<ProductType>({
+			name,
+			stock,
+			price,
+			tags
+		});
 		console.log(`New product: ${newProduct}`);
 
 		// console.log(`${name} inserted with ID of ${}`);
@@ -42,68 +50,78 @@ program
 	});
 
 // // READ - Get product by id
-// program
-// 	.command('get')
-// 	.description('Get product by ID')
-// 	.argument('<id>', 'Product ID')
-// 	.action(async id => {
-// 		console.log('CLI application was called with get command');
-// 		const objId = ObjectId.createFromHexString(id);
-// 		const product = await products.findOne({ _id: objId });
-// 		console.log(product);
-// 	});
+program
+	.command('get')
+	.description('Get product by ID')
+	.argument('<id>', 'Product ID')
+	.action(async id => {
+		console.log('CLI application was called with get command');
+		const products = await Product.findById(id);
+		console.log(products);
+	});
 
 // // SEARCH - search by tags
-// program
-// 	.command('search')
-// 	.description('Search products by tag')
-// 	.argument('<tag>', 'Product tag')
-// 	.action(async tag => {
-// 		console.log('CLI application was called with search command');
+program
+	.command('search')
+	.description('Search products by tag')
+	.argument('<tag>', 'Product tag')
+	.action(async tag => {
+		console.log('CLI application was called with search command');
 
-// 		const product = await products.find({ tags: tag }).toArray();
-// 		console.log(product);
-// 	});
+		const products = await Product.find({ tags: tag });
+		console.log(products);
+	});
 
 // // UPDATE
-// program
-// 	.command('update')
-// 	.description('Update a product by ID')
-// 	.argument('<id>', 'Product ID')
-// 	.argument('<name>', 'Product name')
-// 	.argument('<stock>', 'Stock quantity')
-// 	.argument('<price>', 'Product price')
-// 	.argument('<tags>', 'Comma-separated tags')
-// 	.action(async (id, name, stockStr, priceStr, tagsStr) => {
-// 		console.log('CLI application was called with update command with arguments:', {
-// 			id,
-// 			name,
-// 			stockStr,
-// 			priceStr,
-// 			tagsStr
-// 		});
-// 		const objId = ObjectId.createFromHexString(id);
-// 		const stock = +stockStr;
-// 		const price = +priceStr;
-// 		const tags = tagsStr.split(',');
+program
+	.command('update')
+	.description('Update a product by ID')
+	.argument('<id>', 'Product ID')
+	.argument('<name>', 'Product name')
+	.argument('<stock>', 'Stock quantity')
+	.argument('<price>', 'Product price')
+	.argument('<tags>', 'Comma-separated tags')
+	.action(async (id, name, stockStr, priceStr, tagsStr) => {
+		console.log(
+			'CLI application was called with update command with arguments:',
+			{
+				id,
+				name,
+				stockStr,
+				priceStr,
+				tagsStr
+			}
+		);
+		const stock = +stockStr;
+		const price = +priceStr;
+		const tags = tagsStr.split(',');
 
-// 		const result = await products.findOneAndUpdate({ _id: objId }, { $set: { name, stock, price, tags } });
-// 		console.log(result);
+		const result = await Product.findByIdAndUpdate(
+			id,
+			{
+				name,
+				stock,
+				price,
+				tags
+			},
+			{ new: true }
+		);
+		console.log(result);
 
-// 		// console.log(`${name} inserted with ID of ${}`);
-// 	});
+		// console.log(`${name} inserted with ID of ${}`);
+	});
 
 // // DELETE - delete product by id
-// program
-// 	.command('delete')
-// 	.description('Delete product by ID')
-// 	.argument('<id>', 'Product ID')
-// 	.action(async id => {
-// 		console.log('CLI application was called with delete command');
-// 		const objId = ObjectId.createFromHexString(id);
-// 		const result = await products.findOneAndDelete({ _id: objId });
-// 		console.log(result);
-// 	});
+program
+	.command('delete')
+	.description('Delete product by ID')
+	.argument('<id>', 'Product ID')
+	.action(async id => {
+		console.log('CLI application was called with delete command');
+
+		await Product.findByIdAndDelete(id);
+		console.log(`Product deleted with id: ${id}`);
+	});
 
 // after all commands
 program.hook('postAction', () => process.exit(0));
