@@ -6,6 +6,7 @@ import http, {
 import type { PostType } from '#types';
 import '#db';
 import { Post } from '#models';
+import { isValidObjectId } from 'mongoose';
 
 const createResponse = (
 	res: ServerResponse,
@@ -44,6 +45,7 @@ const parseJsonBody = <T>(req: IncomingMessage): Promise<T> => {
 const requestHandler: RequestListener = async (req, res) => {
 	const singlePostRegex = /^\/posts\/[0-9a-zA-Z]+$/; // Simple expression to match the pattern /posts/anything
 	const { method, url } = req;
+	console.log(method, url);
 	if (url === '/posts') {
 		if (method === 'GET') {
 			const posts = await Post.find();
@@ -53,20 +55,48 @@ const requestHandler: RequestListener = async (req, res) => {
 			const body = await parseJsonBody<PostType>(req);
 			if (!body.title || !body.content)
 				return createResponse(res, 400, 'Invalid request body');
+			const newPost = await Post.create(body);
+
+			return createResponse(res, 201, newPost);
 		}
 		return createResponse(res, 405, 'Method Not Allowed');
 	}
 	if (singlePostRegex.test(url!)) {
 		const id = getResourceId(url!);
 		if (method === 'GET') {
+			if (!isValidObjectId(id))
+				return createResponse(res, 400, 'Invalid Post ID');
+
 			const post = await Post.findById(id);
+
+			if (!post) return createResponse(res, 404, 'Post Not Found');
+
 			return createResponse(res, 200, post);
 		}
 		if (method === 'PUT') {
-			return createResponse(res, 200, `PUT request on ${url}`);
+			if (!isValidObjectId(id))
+				return createResponse(res, 400, 'Invalid Post ID');
+
+			const body = await parseJsonBody<{ title: string; content: string }>(req);
+
+			if (!body.title || !body.content)
+				return createResponse(res, 400, 'Invalid request body');
+
+			const post = await Post.findByIdAndUpdate(id, body, { new: true });
+
+			if (!post) return createResponse(res, 404, 'Post Not Found');
+
+			return createResponse(res, 200, post);
 		}
 		if (method === 'DELETE') {
-			return createResponse(res, 200, `DELETE request on ${url}`);
+			if (!isValidObjectId(id))
+				return createResponse(res, 400, 'Invalid Post ID');
+
+			const post = await Post.findByIdAndDelete(id);
+
+			if (!post) return createResponse(res, 404, 'Post Not Found');
+
+			return createResponse(res, 200, { message: 'Post Deleted' });
 		}
 		return createResponse(res, 405, 'Method Not Allowed');
 	}
